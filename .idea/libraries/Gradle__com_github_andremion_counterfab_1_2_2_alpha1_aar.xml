@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.andremion:counterfab:1.2.2-alpha1@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cac2b8d8b1a1860d797e7c1264b8abcb/jetified-counterfab-1.2.2-alpha1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cac2b8d8b1a1860d797e7c1264b8abcb/jetified-counterfab-1.2.2-alpha1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cac2b8d8b1a1860d797e7c1264b8abcb/jetified-counterfab-1.2.2-alpha1/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.andremion/counterfab/1.2.2-alpha1/5135ba9b6e4705dbada47fe07079d5c56c0a35d7/counterfab-1.2.2-alpha1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.andremion/counterfab/1.2.2-alpha1/a0b229a7075c9a7a8d92b2ac3b528bd2fec97ab8/counterfab-1.2.2-alpha1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

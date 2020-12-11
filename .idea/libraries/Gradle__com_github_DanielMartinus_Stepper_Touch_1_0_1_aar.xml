@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.DanielMartinus:Stepper-Touch:1.0.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/76c5ad21d15db505208c1f8c3294f143/jetified-Stepper-Touch-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/76c5ad21d15db505208c1f8c3294f143/jetified-Stepper-Touch-1.0.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/76c5ad21d15db505208c1f8c3294f143/jetified-Stepper-Touch-1.0.1/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.DanielMartinus/Stepper-Touch/1.0.1/fc883651fbc0da36dd6c33ac6ec17cc2239e536c/Stepper-Touch-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
