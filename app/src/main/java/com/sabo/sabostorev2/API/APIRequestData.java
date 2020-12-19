@@ -66,8 +66,6 @@ public interface APIRequestData {
      * - Email
      * - Username
      * - New Password
-     * - Phone
-     * - Gender
      */
     @FormUrlEncoded
     @POST("updateUserProfile.php")
@@ -75,9 +73,16 @@ public interface APIRequestData {
                                           @Field("oldPassword") String oldPassword,
                                           @Field("email") String email,
                                           @Field("username") String username,
-                                          @Field("newPassword") String newPassword,
-                                          @Field("phone") String phone,
-                                          @Field("gender") String gender);
+                                          @Field("newPassword") String newPassword);
+
+    /**
+     * Update User Gender
+     * - Gender
+     */
+    @FormUrlEncoded
+    @POST("updateUserGender.php")
+    Call<ResponseModel> updateUserGender(@Field("uid") String uid,
+                                         @Field("gender") int gender);
 
 
     /**
@@ -88,6 +93,32 @@ public interface APIRequestData {
     Call<ResponseModel> updateUserImage(@Part MultipartBody.Part uid,
                                         @Part MultipartBody.Part file,
                                         @Part MultipartBody.Part oldFileName);
+
+    /**
+     * Remove User Image
+     */
+    @FormUrlEncoded
+    @POST("removeUserImage.php")
+    Call<ResponseModel> removeUserImage(@Field("uid") String uid,
+                                        @Field("image") String image);
+
+    /**
+     * Get OTP
+     * Update User Phone Number
+     */
+    @FormUrlEncoded
+    @POST("getOTP.php")
+    Call<ResponseModel> getOTP(@Field("uid") String uid,
+                               @Field("phone") String phone,
+                               @Field("code") int code);
+
+
+    /**
+     * Remove User Account
+     */
+    @FormUrlEncoded
+    @POST("removeAccount.php")
+    Call<ResponseModel> removeAccount(@Field("uid") String uid);
 
 
     /**

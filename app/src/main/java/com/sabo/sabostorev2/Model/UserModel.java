@@ -2,7 +2,7 @@ package com.sabo.sabostorev2.Model;
 
 public class UserModel {
     private String uid, email, username, image, phone;
-    private int gender;
+    private int gender, code;
 
     public String getUid() {
         return uid;
@@ -50,5 +50,13 @@ public class UserModel {
 
     public void setGender(int gender) {
         this.gender = gender;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 }

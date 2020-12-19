@@ -18,8 +18,14 @@ import com.sabo.sabostorev2.Common.Preferences
 import com.sabo.sabostorev2.Model.ResponseModel
 import com.sabo.sabostorev2.Model.UserModel
 import com.sabo.sabostorev2.R
+import com.sabo.sabostorev2.RoomDB.RoomDBHost
+import com.sabo.sabostorev2.RoomDB.User.LocalUserDataSource
+import com.sabo.sabostorev2.RoomDB.User.User
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import maes.tech.intentanim.CustomIntent
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,16 +33,19 @@ import retrofit2.Response
 
 class AccountActivity : AppCompatActivity(), View.OnClickListener {
 
-    private var mService: APIRequestData? = null
     private var civProfile: CircleImageView? = null
     private var tvUsername: TextView? = null
     private var tvEmail: TextView? = null
+
+    private var compositeDisposable: CompositeDisposable? = null
+    private var localUserDataSource: LocalUserDataSource? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account)
 
-        mService = Common.getAPI()
+        compositeDisposable = CompositeDisposable()
+        localUserDataSource = LocalUserDataSource(RoomDBHost.getInstance(this).userDAO())
 
         initViews()
     }
@@ -45,7 +54,7 @@ class AccountActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = "Account"
 
-        civProfile = findViewById(R.id.civProfile)
+        civProfile = findViewById(R.id.civPhotoProfile)
         tvUsername = findViewById(R.id.tvUsername)
         tvEmail = findViewById(R.id.tvEmail)
 
@@ -63,33 +72,22 @@ class AccountActivity : AppCompatActivity(), View.OnClickListener {
     private fun loadData() {
         val uid: String = Preferences.getUID(this)
 
-        mService!!.getUser(uid).enqueue(object : Callback<ResponseModel> {
-            override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                val code: Int = response.body()!!.code
-                if (code == 2) {
-                    val user: UserModel = response.body()!!.user
+        compositeDisposable!!.add(localUserDataSource!!.getUser(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { user: User ->
                     val img: String = Common.USER_IMAGE_URL + user.image
                     Picasso.get().load(img).placeholder(R.drawable.no_profile).into(civProfile)
                     tvUsername!!.text = user.username
                     tvEmail!!.text = user.email
-                }
-                if (code == 1) {
-                    val message: String = response.body()!!.message
-                    Log.d("User", message)
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-        })
+                })
     }
 
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.profile -> {
                 startActivity(Intent(this, Profile::class.java))
-                CustomIntent.customType(this, Common.LTR)
+                CustomIntent.customType(this, Common.FINFOUT)
             }
             R.id.accountSettings -> {
                 startActivity(Intent(this, AccountSettings::class.java))
@@ -119,5 +117,10 @@ class AccountActivity : AppCompatActivity(), View.OnClickListener {
     override fun finish() {
         super.finish()
         CustomIntent.customType(this, Common.RTL)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable!!.clear()
     }
 }

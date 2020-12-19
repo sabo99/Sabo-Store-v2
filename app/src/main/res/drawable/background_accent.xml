@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Focus -->
-    <item
-        android:state_focused="true"
-        android:state_pressed="false">
-        <shape android:shape="oval">
-            <solid android:color="#CCFFFFFF" />
-
-            <size android:width="35dp" android:height="35dp"/>
-        </shape>
-    </item>
-
     <!-- Pressed -->
     <item
         android:state_focused="false"
         android:state_pressed="true">
         <shape android:shape="oval">
-            <solid android:color="#CCFFFFFF" />
+            <solid android:color="@color/colorPrimaryDark" />
 
             <size android:width="35dp" android:height="35dp"/>
         </shape>
@@ -26,7 +15,7 @@
     <!-- Default -->
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/white" />
+            <solid android:color="@color/colorAccent" />
 
             <size android:width="35dp" android:height="35dp"/>
         </shape>

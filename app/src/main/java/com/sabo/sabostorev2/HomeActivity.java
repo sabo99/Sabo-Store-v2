@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,9 +28,15 @@ import com.sabo.sabostorev2.Common.Common;
 import com.sabo.sabostorev2.Common.Preferences;
 import com.sabo.sabostorev2.Model.ResponseModel;
 import com.sabo.sabostorev2.Model.UserModel;
+import com.sabo.sabostorev2.RoomDB.RoomDBHost;
+import com.sabo.sabostorev2.RoomDB.User.LocalUserDataSource;
+import com.sabo.sabostorev2.RoomDB.User.User;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import maes.tech.intentanim.CustomIntent;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,7 +48,10 @@ public class HomeActivity extends AppCompatActivity {
     private NavController navController;
     private DrawerLayout drawer;
     private NavigationView navigationView;
+
     private APIRequestData mService;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private LocalUserDataSource localUserDataSource;
 
     private CircleImageView civHeader;
     private TextView tvHeader;
@@ -55,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mService = Common.getAPI();
+        localUserDataSource = new LocalUserDataSource(RoomDBHost.getInstance(this).userDAO());
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -128,10 +139,27 @@ public class HomeActivity extends AppCompatActivity {
                     Log.d("User", message);
                 } else {
                     UserModel userModel = response.body().getUser();
-                    Common.userModel = userModel;
+                    Common.currentUser = userModel;
 
-                    tvHeader.setText(userModel.getUsername());
-                    Picasso.get().load(Common.USER_IMAGE_URL + userModel.getImage()).placeholder(R.drawable.no_profile).into(civHeader);
+                    User user = new User();
+                    user.setUid(userModel.getUid());
+                    user.setEmail(userModel.getEmail());
+                    user.setUsername(userModel.getUsername());
+                    user.setImage(userModel.getImage());
+                    user.setPhone(userModel.getPhone());
+                    user.setGender(userModel.getGender());
+
+                    compositeDisposable.add(localUserDataSource.insertOrUpdateUser(user)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(() -> {
+                                Log.d("user", "Success");
+                            },throwable -> {
+                                Log.d("user", throwable.getMessage());
+                            }));
+
+                    tvHeader.setText(user.getUsername());
+                    Picasso.get().load(Common.USER_IMAGE_URL + user.getImage()).placeholder(R.drawable.no_profile).into(civHeader);
                 }
             }
 
@@ -139,10 +167,18 @@ public class HomeActivity extends AppCompatActivity {
             public void onFailure(Call<ResponseModel> call, Throwable t) {
                 String message = t.getMessage();
                 progressBar.setVisibility(View.GONE);
-                if (message.contains("10000ms"))
-                    mSweetLoading.setTitleText("Oops!")
-                            .setContentText(t.getMessage())
-                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                if (message.contains("10000ms")){
+                    mSweetLoading.dismissWithAnimation();
+                    String uid = Preferences.getUID(HomeActivity.this);
+                    compositeDisposable.add(localUserDataSource.getUser(uid)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(user -> {
+                        tvHeader.setText(user.getUsername());
+                        Picasso.get().load(Common.USER_IMAGE_URL + user.getImage()).placeholder(R.drawable.no_profile).into(civHeader);
+                    }));
+                }
+
                 else
                     mSweetLoading.setTitleText("Oops!")
                             .setContentText(t.getMessage())
@@ -227,6 +263,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        compositeDisposable.clear();
         String uid = Preferences.getUID(this);
         mService.signOut(uid).enqueue(new Callback<ResponseModel>() {
             @Override

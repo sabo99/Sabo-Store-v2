@@ -17,7 +17,7 @@
         android:padding="16dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/civProfile"
+            android:id="@+id/civPhotoProfile"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/no_profile" />
@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Reset Password, change email" />
+                android:text="Reset password, delete account" />
 
 
         </LinearLayout>

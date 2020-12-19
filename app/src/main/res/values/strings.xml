@@ -14,4 +14,6 @@
     <string name="menu_order_history">Order History</string>
     <string name="menu_account">Account</string>
     <string name="menu_exit">Sign out</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

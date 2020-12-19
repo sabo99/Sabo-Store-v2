@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sabo.sabostorev2.API.APIRequestData;
 import com.sabo.sabostorev2.Adapter.CategoriesAdapter;
 import com.sabo.sabostorev2.Common.Common;
+import com.sabo.sabostorev2.Common.ScaleCenterItemLayoutManager;
 import com.sabo.sabostorev2.Model.ResponseModel;
 import com.sabo.sabostorev2.R;
 
@@ -49,8 +50,9 @@ public class HomeFragment extends Fragment {
     private void initViews(View root) {
         rvCategories = root.findViewById(R.id.rvCategories);
 
-        rvCategories.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        ScaleCenterItemLayoutManager layoutManager = new ScaleCenterItemLayoutManager(root.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        rvCategories.setLayoutManager(layoutManager);
         loadCategories();
     }
 
@@ -68,7 +70,7 @@ public class HomeFragment extends Fragment {
         });
 
         new Handler().postDelayed(() -> {
-            homeViewModel.getMutableLiveData().observe(this, itemStoreModels -> {
+            homeViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), itemStoreModels -> {
                 categoriesAdapter = new CategoriesAdapter(getContext(), itemStoreModels);
                 rvCategories.setAdapter(categoriesAdapter);
             });

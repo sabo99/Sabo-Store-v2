@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import com.sabo.sabostorev2.Account.Menu.SubMenu.ChangeEmail
 import com.sabo.sabostorev2.Account.Menu.SubMenu.DeleteAccount
 import com.sabo.sabostorev2.Account.Menu.SubMenu.ResetPassword
 import com.sabo.sabostorev2.Common.Common
@@ -28,7 +27,6 @@ class AccountSettings : AppCompatActivity(), View.OnClickListener {
         supportActionBar!!.title = "Account Settings"
 
         findViewById<LinearLayout>(R.id.resetPassword).setOnClickListener(this)
-        findViewById<LinearLayout>(R.id.changeEmail).setOnClickListener(this)
         findViewById<LinearLayout>(R.id.deleteAccount).setOnClickListener(this)
     }
 
@@ -51,10 +49,6 @@ class AccountSettings : AppCompatActivity(), View.OnClickListener {
         when(v!!.id){
             R.id.resetPassword -> {
                 startActivity(Intent(this, ResetPassword::class.java))
-                CustomIntent.customType(this, Common.LTR)
-            }
-            R.id.changeEmail -> {
-                startActivity(Intent(this, ChangeEmail::class.java))
                 CustomIntent.customType(this, Common.LTR)
             }
             R.id.deleteAccount -> {
