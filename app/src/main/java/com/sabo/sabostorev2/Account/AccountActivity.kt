@@ -2,21 +2,17 @@ package com.sabo.sabostorev2.Account
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.sabo.sabostorev2.API.APIRequestData
 import com.sabo.sabostorev2.Account.Menu.AccountSettings
 import com.sabo.sabostorev2.Account.Menu.Favorite
 import com.sabo.sabostorev2.Account.Menu.OrderHistory
 import com.sabo.sabostorev2.Account.Menu.Profile
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.Common.Preferences
-import com.sabo.sabostorev2.Model.ResponseModel
-import com.sabo.sabostorev2.Model.UserModel
 import com.sabo.sabostorev2.R
 import com.sabo.sabostorev2.RoomDB.RoomDBHost
 import com.sabo.sabostorev2.RoomDB.User.LocalUserDataSource
@@ -27,9 +23,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import maes.tech.intentanim.CustomIntent
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class AccountActivity : AppCompatActivity(), View.OnClickListener {
 

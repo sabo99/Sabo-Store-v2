@@ -22,19 +22,6 @@ public class Preferences {
         return getSharedPreference(context).getString(Common.SF_KEY_UID, "");
     }
 
-    /** CountryCode
-     * @param context
-     * @param cc
-     */
-    public static void setCountryCode(Context context, String cc){
-        SharedPreferences.Editor editor = getSharedPreference(context).edit();
-        editor.putString(Common.SF_KEY_CC, cc).apply();
-    }
-
-    public static String getCountryCode(Context context){
-        return getSharedPreference(context).getString(Common.SF_KEY_CC, "");
-    }
-
     /** LOGGED IN
      * @param context
      * @param isLogIn

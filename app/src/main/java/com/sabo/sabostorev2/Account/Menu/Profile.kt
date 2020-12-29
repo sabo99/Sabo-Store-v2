@@ -16,7 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
-import com.sabo.sabostorev2.API.APIRequestData
+import com.sabo.sabostorev2.API.API
 import com.sabo.sabostorev2.Account.Menu.BottomSheet.*
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.Common.FileUtils
@@ -57,7 +57,7 @@ class Profile : AppCompatActivity(), View.OnClickListener {
     private var tvPhone: TextView? = null
     private var tvGender: TextView? = null
 
-    private var mService: APIRequestData? = null
+    private var mService: API? = null
     private var compositeDisposable: CompositeDisposable? = null
     private var localUserDataSource: LocalUserDataSource? = null
 
@@ -109,8 +109,17 @@ class Profile : AppCompatActivity(), View.OnClickListener {
                     Picasso.get().load(img).placeholder(R.drawable.no_profile).into(civProfile)
                     tvUsername!!.text = user.username
                     tvEmail!!.text = user.email
-                    if (user.phone != "")
-                        tvPhone!!.text = Preferences.getCountryCode(this@Profile) + " " + Common.formatPhoneNumber(this@Profile, user.phone)
+                    if (user.phone != ""){
+                        if (user.countryCode != null)
+                            tvPhone!!.text =
+                                    StringBuilder().append(user.countryCode)
+                                            .append(" ")
+                                            .append(Common.formatPhoneNumber(this@Profile, user.phone)).toString()
+                        else
+                            tvPhone!!.text =
+                                    StringBuilder().append(" ")
+                                            .append(Common.formatPhoneNumber(this@Profile, user.phone)).toString()
+                    }
                     else
                         tvPhone!!.text = "None"
 
@@ -149,6 +158,7 @@ class Profile : AppCompatActivity(), View.OnClickListener {
             }
             R.id.menuPhone -> {
                 startActivity(Intent(this, MenuPhone::class.java))
+                CustomIntent.customType(this, Common.LTR)
             }
             R.id.menuGender -> {
                 val menuGender: MenuGender = MenuGender.getInstance()!!
@@ -204,7 +214,7 @@ class Profile : AppCompatActivity(), View.OnClickListener {
 
         if (event.isRemove) {
             event.isRemove = false
-            val image: String = Common.currentUser.image
+            val image: String? = Common.currentUser.image
             if (image == "default.png") {
                 Toast.makeText(this@Profile, "No profile photo", Toast.LENGTH_SHORT).show()
                 return
@@ -227,7 +237,7 @@ class Profile : AppCompatActivity(), View.OnClickListener {
 
     private fun removePhoto() {
         val uid: String = Preferences.getUID(this)
-        val image: String = Common.currentUser.image
+        val image: String? = Common.currentUser.image
 
         val pleaseWait = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
         pleaseWait.progressHelper.barColor = resources.getColor(R.color.colorPrimary)
@@ -246,6 +256,7 @@ class Profile : AppCompatActivity(), View.OnClickListener {
                 user.username = userModel.username
                 user.image = userModel.image
                 user.phone = userModel.phone
+                user.countryCode = userModel.countryCode
                 user.gender = userModel.gender
 
                 compositeDisposable!!.add(localUserDataSource!!.insertOrUpdateUser(user)
@@ -387,6 +398,7 @@ class Profile : AppCompatActivity(), View.OnClickListener {
                             user.username = userModel.username
                             user.image = fileName
                             user.phone = userModel.phone
+                            user.countryCode = userModel.countryCode
                             user.gender = userModel.gender
 
                             compositeDisposable!!.add(localUserDataSource!!.insertOrUpdateUser(user)

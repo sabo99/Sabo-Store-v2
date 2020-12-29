@@ -2,6 +2,7 @@ package com.sabo.sabostorev2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
-import com.sabo.sabostorev2.API.APIRequestData;
+import com.sabo.sabostorev2.API.API;
 import com.sabo.sabostorev2.Account.AccountActivity;
 import com.sabo.sabostorev2.Common.Common;
 import com.sabo.sabostorev2.Common.Preferences;
@@ -49,9 +50,10 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private NavigationView navigationView;
 
-    private APIRequestData mService;
+    private API mService;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private LocalUserDataSource localUserDataSource;
+    private String uid;
 
     private CircleImageView civHeader;
     private TextView tvHeader;
@@ -66,6 +68,7 @@ public class HomeActivity extends AppCompatActivity {
 
         mService = Common.getAPI();
         localUserDataSource = new LocalUserDataSource(RoomDBHost.getInstance(this).userDAO());
+        uid = Preferences.getUID(this);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +92,7 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         initViews();
+        initViewsUser();
    }
 
     private void initViews() {
@@ -118,7 +122,9 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        initViewsUser();
+        new Handler().postDelayed(() -> {
+            loadData();
+        },1000);
     }
 
     private void initViewsUser() {
@@ -127,7 +133,6 @@ public class HomeActivity extends AppCompatActivity {
         mSweetLoading.setTitleText("Please wait...").setCanceledOnTouchOutside(false);
         mSweetLoading.show();
 
-        String uid = Preferences.getUID(this);
         mService.getUser(uid).enqueue(new Callback<ResponseModel>() {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
@@ -147,6 +152,7 @@ public class HomeActivity extends AppCompatActivity {
                     user.setUsername(userModel.getUsername());
                     user.setImage(userModel.getImage());
                     user.setPhone(userModel.getPhone());
+                    user.setCountryCode(userModel.getCountryCode());
                     user.setGender(userModel.getGender());
 
                     compositeDisposable.add(localUserDataSource.insertOrUpdateUser(user)
@@ -167,18 +173,9 @@ public class HomeActivity extends AppCompatActivity {
             public void onFailure(Call<ResponseModel> call, Throwable t) {
                 String message = t.getMessage();
                 progressBar.setVisibility(View.GONE);
-                if (message.contains("10000ms")){
+                loadData();
+                if (message.contains("10000ms"))
                     mSweetLoading.dismissWithAnimation();
-                    String uid = Preferences.getUID(HomeActivity.this);
-                    compositeDisposable.add(localUserDataSource.getUser(uid)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(user -> {
-                        tvHeader.setText(user.getUsername());
-                        Picasso.get().load(Common.USER_IMAGE_URL + user.getImage()).placeholder(R.drawable.no_profile).into(civHeader);
-                    }));
-                }
-
                 else
                     mSweetLoading.setTitleText("Oops!")
                             .setContentText(t.getMessage())
@@ -187,10 +184,26 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    private void loadData() {
+        compositeDisposable.add(localUserDataSource.getUser(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(user -> {
+                    tvHeader.setText(user.getUsername());
+                    Picasso.get().load(Common.USER_IMAGE_URL + user.getImage()).placeholder(R.drawable.no_profile).into(civHeader);
+                }));
+    }
+
+
     public void onAccount(MenuItem item) {
         drawer.closeDrawers();
         startActivity(new Intent(this, AccountActivity.class));
         CustomIntent.customType(this, Common.LTR);
+    }
+
+    public void onAbout(MenuItem item){
+        drawer.closeDrawers();
+        Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
     }
 
     public void onLogout(MenuItem item) {
@@ -224,6 +237,7 @@ public class HomeActivity extends AppCompatActivity {
                                     break;
                                 case 1:
                                     sweetAlertDialog.dismissWithAnimation();
+                                    localUserDataSource.clearAccount(uid);
                                     Preferences.clearAllPreferences(HomeActivity.this);
                                     startActivity(new Intent(HomeActivity.this, SignInActivity.class));
                                     finish();

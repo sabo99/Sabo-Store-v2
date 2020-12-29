@@ -13,7 +13,7 @@ import android.widget.EditText
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
-import com.sabo.sabostorev2.API.APIRequestData
+import com.sabo.sabostorev2.API.API
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.Common.Preferences
 import com.sabo.sabostorev2.EventBus.UpdateProfileEvent
@@ -41,7 +41,7 @@ class MenuEmail : BottomSheetDialogFragment(), View.OnClickListener {
         }
     }
 
-    private var mService: APIRequestData? = null
+    private var mService: API? = null
     private var compositeDisposable: CompositeDisposable?= null
     private var localUserDataSource: LocalUserDataSource?= null
 
@@ -99,7 +99,7 @@ class MenuEmail : BottomSheetDialogFragment(), View.OnClickListener {
 
     private fun reauth() {
         val uid: String = Preferences.getUID(context)
-        val username: String = Common.currentUser.username
+        val username: String? = Common.currentUser.username
         val email: String = etEmail!!.text.toString()
         val password: String = etPassword!!.text.toString()
 
@@ -124,7 +124,7 @@ class MenuEmail : BottomSheetDialogFragment(), View.OnClickListener {
             sweetLoading.setCanceledOnTouchOutside(false)
             sweetLoading.show()
 
-            mService!!.updateUserProfile(uid, password, email, username, password).enqueue(object : Callback<ResponseModel> {
+            mService!!.updateUserEmailUsername(uid, password, email, username).enqueue(object : Callback<ResponseModel> {
                 override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
                     val code: Int = response.body()!!.code
                     val message: String = response.body()!!.message
@@ -170,6 +170,7 @@ class MenuEmail : BottomSheetDialogFragment(), View.OnClickListener {
                         user.username = userModel.username
                         user.image = userModel.image
                         user.phone = userModel.phone
+                        user.countryCode = userModel.countryCode
                         user.gender = userModel.gender
 
                         compositeDisposable!!.add(localUserDataSource!!.insertOrUpdateUser(user)

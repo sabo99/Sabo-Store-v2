@@ -50,7 +50,7 @@
                     <RelativeLayout
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:background="@drawable/background_danger">
+                        android:background="@drawable/background_circle_danger">
 
                         <ImageView
                             android:layout_width="20dp"
@@ -80,7 +80,7 @@
                     <RelativeLayout
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:background="@drawable/background_accent">
+                        android:background="@drawable/background_circle_accent">
 
                         <ImageView
                             android:layout_width="20dp"

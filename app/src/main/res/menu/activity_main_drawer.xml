@@ -22,6 +22,7 @@
             android:title="@string/menu_order_history" />
     </group>
 
+
     <group android:id="@+id/account_group">
         <item
             android:onClick="onAccount"
@@ -29,8 +30,14 @@
             android:title="@string/menu_account"/>
 
         <item
+            android:onClick="onAbout"
+            android:icon="@drawable/ic_about"
+            android:title="@string/menu_about"/>
+
+        <item
             android:onClick="onLogout"
             android:icon="@drawable/ic_exit"
             android:title="@string/menu_exit"/>
     </group>
+
 </menu>

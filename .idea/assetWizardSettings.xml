@@ -19,8 +19,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_gender" />
-                            <entry key="sourceFile" value="D:\toilet-signs.svg" />
+                            <entry key="outputName" value="ic_reset_password" />
+                            <entry key="sourceFile" value="D:\reset-password.svg" />
                           </map>
                         </option>
                       </PersistentState>

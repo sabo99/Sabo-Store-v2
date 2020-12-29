@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Pressed -->
+    <item
+        android:state_focused="false"
+        android:state_pressed="true">
+        <shape android:shape="oval">
+            <solid android:color="@color/red_btn_bg_pressed_color" />
+
+            <size android:width="35dp" android:height="35dp"/>
+        </shape>
+    </item>
+
+    <!-- Default -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/red_btn_bg_color" />
+
+            <size android:width="35dp" android:height="35dp"/>
+        </shape>
+    </item>
+</selector>

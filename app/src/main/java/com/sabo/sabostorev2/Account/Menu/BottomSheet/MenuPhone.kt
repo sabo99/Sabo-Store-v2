@@ -6,27 +6,26 @@ import android.os.CountDownTimer
 import android.os.Handler
 import android.util.Log
 import android.util.Patterns
-import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
-import com.sabo.sabostorev2.API.APIRequestData
+import com.sabo.sabostorev2.API.API
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.Common.Preferences
 import com.sabo.sabostorev2.EventBus.UpdateProfileEvent
 import com.sabo.sabostorev2.Model.ResponseModel
-import com.sabo.sabostorev2.Model.UserModel
 import com.sabo.sabostorev2.R
 import com.sabo.sabostorev2.RoomDB.RoomDBHost
 import com.sabo.sabostorev2.RoomDB.User.LocalUserDataSource
 import com.sabo.sabostorev2.RoomDB.User.User
-import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_menu_phone.*
+import maes.tech.intentanim.CustomIntent
 import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,10 +42,11 @@ class MenuPhone : AppCompatActivity(), View.OnClickListener {
     private var tvResendCodeMessage: TextView? = null
     private var ccPicker: CountryCodePicker? = null
 
-    private var mService: APIRequestData? = null
+    private var mService: API? = null
     private var compositeDisposable: CompositeDisposable?= null
     private var localUserDataSource: LocalUserDataSource?= null
 
+    private var uid: String? = null
     private var mCodeVerification: Int? = null
     private var timer: CountDownTimer? = null
     private var state = 0
@@ -59,21 +59,18 @@ class MenuPhone : AppCompatActivity(), View.OnClickListener {
         mService = Common.getAPI()
         compositeDisposable = CompositeDisposable();
         localUserDataSource = LocalUserDataSource(RoomDBHost.getInstance(this).userDAO())
+        uid = Preferences.getUID(this)
         initViews()
         initTimer()
     }
 
     private fun initViews() {
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = "Change Phone Number"
-
         llGetOTP = findViewById(R.id.llGetOTP)
         llSendOTP = findViewById(R.id.llSendOTP)
         etPhone = findViewById(R.id.etPhone)
         etCode = findViewById(R.id.etCode)
         tvResendCodeMessage = findViewById(R.id.tvResendCodeMessage)
         ccPicker = findViewById(R.id.ccPicker)
-
 
         if (state == 0){
             llGetOTP!!.visibility = View.VISIBLE
@@ -84,6 +81,7 @@ class MenuPhone : AppCompatActivity(), View.OnClickListener {
             llSendOTP!!.visibility = View.VISIBLE
         }
 
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener(this)
         findViewById<Button>(R.id.btnSend).setOnClickListener(this)
         findViewById<TextView>(R.id.tvResendCode).setOnClickListener(this)
         findViewById<Button>(R.id.btnVerify).setOnClickListener(this)
@@ -94,18 +92,23 @@ class MenuPhone : AppCompatActivity(), View.OnClickListener {
             override fun onTick(millisUntilFinished: Long) {
                 tvResendCodeMessage!!.text = "Resend Code in " + millisUntilFinished / 1000 + " second"
                 tvResendCode!!.isEnabled = false
+                tvResendCode!!.setTextColor(resources.getColor(android.R.color.tertiary_text_dark))
             }
 
             override fun onFinish() {
                 tvResendCodeMessage!!.text = "Resend a new code"
                 tvResendCode!!.isEnabled = true
+                tvResendCode!!.setTextColor(resources.getColor(android.R.color.black))
             }
         }
     }
 
-
     override fun onClick(v: View?) {
         when (v!!.id) {
+            R.id.btnBack -> {
+                CustomIntent.customType(this, Common.RTL)
+                finish()
+            }
             R.id.btnSend -> {
                 sendCode()
             }
@@ -118,19 +121,13 @@ class MenuPhone : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item!!.itemId) {
-            android.R.id.home -> {
-                finish()
-            }
-        }
-        return super.onOptionsItemSelected(item)
+    override fun finish() {
+        super.finish()
+        CustomIntent.customType(this, Common.RTL)
     }
 
     private fun sendCode() {
-        val uid: String = Preferences.getUID(this)
         val phone: String = etPhone!!.text.toString()
-        val countryCode: String = "+" + ccPicker!!.selectedCountryCode
 
         val rand = Random()
         val number: Int = rand.nextInt(999999)
@@ -158,14 +155,12 @@ class MenuPhone : AppCompatActivity(), View.OnClickListener {
 
             btnSend.isEnabled = false
             btnVerify.isEnabled = false
-//            llGetOTP!!.visibility = View.GONE
-//            llSendOTP!!.visibility = View.VISIBLE
+            cvVerify.setCardBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
 
             Handler().postDelayed({
                 timer!!.start()
             }, 1000)
 
-            Preferences.setCountryCode(this, countryCode)
             mService!!.getOTP(uid, phone, code).enqueue(object : Callback<ResponseModel> {
                 override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
                     val code: Int = response.body()!!.code
@@ -176,11 +171,9 @@ class MenuPhone : AppCompatActivity(), View.OnClickListener {
                         // Delay 5 Second
                         Handler().postDelayed({
                             btnVerify.isEnabled = true
+                            cvVerify.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
                             etCode!!.setText(mCodeVerification.toString())
                         }, 5000);
-
-                        /** Update Phone In DB Local */
-                        updateDBLocal(phone)
                     }
                     if (code == 2) {
                         Toast.makeText(this@MenuPhone, "Request code failed", Toast.LENGTH_SHORT).show()
@@ -195,36 +188,14 @@ class MenuPhone : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun updateDBLocal(phone: String) {
-        val userModel = Common.currentUser
-        val user = User()
-        user.uid = userModel.uid
-        user.email = userModel.email
-        user.username = userModel.username
-        user.image = userModel.image
-        user.phone = phone
-        user.gender = userModel.gender
-
-        compositeDisposable!!.add(localUserDataSource!!.insertOrUpdateUser(user)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    Log.d("user", "Phone updated successfully")
-                })
-                { throwable: Throwable ->
-                    Log.d("user", throwable.message)
-                })
-    }
-
     private fun resendCode() {
         val phone: String = etPhone!!.text.toString()
-        val uid: String = Preferences.getUID(this)
-
         val rand = Random()
         val number: Int = rand.nextInt(999999)
         val code: Int = String.format("%06d", number).toInt()
 
         btnVerify.isEnabled = false
+        cvVerify.setCardBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
         timer!!.start()
 
         mService!!.getOTP(uid, phone, code).enqueue(object : Callback<ResponseModel> {
@@ -237,6 +208,7 @@ class MenuPhone : AppCompatActivity(), View.OnClickListener {
                     // Delay 5 Second
                     Handler().postDelayed({
                         btnVerify.isEnabled = true
+                        cvVerify.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
                         etCode!!.setText(mCodeVerification.toString())
                     }, 5000);
                 }
@@ -254,14 +226,63 @@ class MenuPhone : AppCompatActivity(), View.OnClickListener {
 
     private fun verifyPhone() {
         val code: String = etCode!!.text.toString()
+        val phone: String = etPhone!!.text.toString()
+        val countryCode: String = "+" + ccPicker!!.selectedCountryCode
+
         if (code != mCodeVerification.toString()) {
             Toast.makeText(this, "Invalid Code", Toast.LENGTH_SHORT).show()
             return
         } else {
-            EventBus.getDefault().postSticky(UpdateProfileEvent(true))
-            Toast.makeText(this, "Phone number added successfully", Toast.LENGTH_LONG).show()
-            finish()
+            val sweetLoading = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+            sweetLoading.progressHelper.barColor = resources.getColor(R.color.colorAccent)
+            sweetLoading.setTitleText("Please wait...").setCanceledOnTouchOutside(false)
+            sweetLoading.show()
+
+            mService!!.updateUserPhone(uid, phone, countryCode).enqueue(object : Callback<ResponseModel> {
+                override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
+                    val code = response.body()!!.code
+                    sweetLoading.dismissWithAnimation()
+                    if (code == 1) {
+                        Toast.makeText(this@MenuPhone, "Verify code failed", Toast.LENGTH_SHORT).show()
+                    }
+                    if (code == 2) {
+                        /** Update Phone In DB Local */
+                        updateDBLocal(phone, countryCode)
+                        EventBus.getDefault().postSticky(UpdateProfileEvent(true))
+                        Toast.makeText(this@MenuPhone, "Phone number added successfully", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
+                    sweetLoading.setTitleText("Oops!")
+                            .setContentText(t.message)
+                            .changeAlertType(SweetAlertDialog.WARNING_TYPE)
+                }
+            })
         }
+    }
+
+    private fun updateDBLocal(phone: String, countryCode: String) {
+        val userModel = Common.currentUser
+        val user = User()
+        user.uid = userModel.uid
+        user.email = userModel.email
+        user.username = userModel.username
+        user.image = userModel.image
+        user.phone = phone
+        user.countryCode = countryCode
+        user.gender = userModel.gender
+
+        compositeDisposable!!.add(localUserDataSource!!.insertOrUpdateUser(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.d("user", "Phone updated successfully")
+                })
+                { throwable: Throwable ->
+                    Log.d("user", throwable.message)
+                })
     }
 
     override fun onStop() {

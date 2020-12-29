@@ -9,8 +9,6 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sabo.sabostorev2.API.APIRequestData;
-import com.sabo.sabostorev2.Common.Common;
 import com.sabo.sabostorev2.Common.Preferences;
 
 public class SplashActivity extends AppCompatActivity {

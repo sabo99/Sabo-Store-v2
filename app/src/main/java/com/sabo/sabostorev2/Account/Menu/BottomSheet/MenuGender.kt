@@ -13,7 +13,7 @@ import android.widget.RadioGroup
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
-import com.sabo.sabostorev2.API.APIRequestData
+import com.sabo.sabostorev2.API.API
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.Common.Preferences
 import com.sabo.sabostorev2.EventBus.UpdateProfileEvent
@@ -42,7 +42,7 @@ class MenuGender : BottomSheetDialogFragment(), View.OnClickListener {
         }
     }
 
-    private var mService: APIRequestData? = null
+    private var mService: API? = null
     private var compositeDisposable: CompositeDisposable? = null
     private var localUserDataSource: LocalUserDataSource? = null
 
@@ -50,7 +50,6 @@ class MenuGender : BottomSheetDialogFragment(), View.OnClickListener {
     private var rbMale: RadioButton? = null
     private var rbFemale: RadioButton? = null
     private var resultGender: String? = null
-    private lateinit var resultUser: User
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -146,6 +145,7 @@ class MenuGender : BottomSheetDialogFragment(), View.OnClickListener {
                     user.username = userModel.username
                     user.image = userModel.image
                     user.phone = userModel.phone
+                    user.countryCode = userModel.countryCode
                     user.gender = userModel.gender
 
                     compositeDisposable!!.add(localUserDataSource!!.insertOrUpdateUser(user)

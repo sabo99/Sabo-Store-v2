@@ -23,6 +23,9 @@ class User {
     @ColumnInfo(name = "phone")
     var phone: String? = null
 
+    @ColumnInfo(name = "countryCode")
+    var countryCode: String?= null
+
     @ColumnInfo(name = "gender")
     var gender: Int? = null
 }

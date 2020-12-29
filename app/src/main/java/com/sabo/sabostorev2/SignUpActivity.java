@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
-import com.sabo.sabostorev2.API.APIRequestData;
+import com.sabo.sabostorev2.API.API;
 import com.sabo.sabostorev2.Common.Common;
 import com.sabo.sabostorev2.Common.Preferences;
 import com.sabo.sabostorev2.Model.ResponseModel;
@@ -32,7 +32,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText etEmail, etUsername, etPassword;
     private Button btnSignUp;
     private TextView tvSignIn;
-    private APIRequestData mService;
+    private API mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

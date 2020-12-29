@@ -6,17 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sabo.sabostorev2.API.APIRequestData;
+import com.sabo.sabostorev2.API.API;
 import com.sabo.sabostorev2.Adapter.CategoriesAdapter;
 import com.sabo.sabostorev2.Common.Common;
 import com.sabo.sabostorev2.Common.ScaleCenterItemLayoutManager;
@@ -29,7 +26,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
-    private APIRequestData mService;
+    private API mService;
     private HomeViewModel homeViewModel;
     private RecyclerView rvCategories;
     private CategoriesAdapter categoriesAdapter;

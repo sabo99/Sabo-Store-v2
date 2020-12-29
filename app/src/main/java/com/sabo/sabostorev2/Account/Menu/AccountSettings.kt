@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.sabo.sabostorev2.Account.Menu.BottomSheet.MenuPhone
 import com.sabo.sabostorev2.Account.Menu.SubMenu.DeleteAccount
 import com.sabo.sabostorev2.Account.Menu.SubMenu.ResetPassword
 import com.sabo.sabostorev2.Common.Common
@@ -26,7 +27,9 @@ class AccountSettings : AppCompatActivity(), View.OnClickListener {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = "Account Settings"
 
+        findViewById<LinearLayout>(R.id.twoStepVerify).setOnClickListener(this)
         findViewById<LinearLayout>(R.id.resetPassword).setOnClickListener(this)
+        findViewById<LinearLayout>(R.id.changeNumber).setOnClickListener(this)
         findViewById<LinearLayout>(R.id.deleteAccount).setOnClickListener(this)
     }
 
@@ -47,8 +50,15 @@ class AccountSettings : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v!!.id){
+            R.id.twoStepVerify -> {
+
+            }
             R.id.resetPassword -> {
                 startActivity(Intent(this, ResetPassword::class.java))
+                CustomIntent.customType(this, Common.LTR)
+            }
+            R.id.changeNumber -> {
+                startActivity(Intent(this, MenuPhone::class.java))
                 CustomIntent.customType(this, Common.LTR)
             }
             R.id.deleteAccount -> {

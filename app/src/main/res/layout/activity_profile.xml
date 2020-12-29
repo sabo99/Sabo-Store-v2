@@ -24,7 +24,7 @@
             android:id="@+id/previewProfilePhoto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background_shadow"
+            android:background="@drawable/background_circle_shadow"
             android:clickable="true"/>
 
         <ImageButton
@@ -36,7 +36,7 @@
             android:layout_margin="4dp"
             android:src="@drawable/ic_photograph"
             android:tint="@color/white"
-            android:background="@drawable/background_accent"/>
+            android:background="@drawable/background_circle_accent"/>
 
     </RelativeLayout>
 
