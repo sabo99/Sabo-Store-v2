@@ -13,7 +13,7 @@ import android.widget.EditText
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
-import com.sabo.sabostorev2.API.API
+import com.sabo.sabostorev2.API.APIRequestData
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.Common.Preferences
 import com.sabo.sabostorev2.EventBus.UpdateProfileEvent
@@ -41,7 +41,7 @@ class MenuEmail : BottomSheetDialogFragment(), View.OnClickListener {
         }
     }
 
-    private var mService: API? = null
+    private var mService: APIRequestData? = null
     private var compositeDisposable: CompositeDisposable?= null
     private var localUserDataSource: LocalUserDataSource?= null
 

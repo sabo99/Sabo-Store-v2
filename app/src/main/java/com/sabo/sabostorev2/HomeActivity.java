@@ -23,7 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
-import com.sabo.sabostorev2.API.API;
+import com.sabo.sabostorev2.API.APIRequestData;
 import com.sabo.sabostorev2.Account.AccountActivity;
 import com.sabo.sabostorev2.Common.Common;
 import com.sabo.sabostorev2.Common.Preferences;
@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private NavigationView navigationView;
 
-    private API mService;
+    private APIRequestData mService;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private LocalUserDataSource localUserDataSource;
     private String uid;

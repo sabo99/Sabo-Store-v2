@@ -10,7 +10,7 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputLayout
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
-import com.sabo.sabostorev2.API.API
+import com.sabo.sabostorev2.API.APIRequestData
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.Common.Preferences
 import com.sabo.sabostorev2.Model.ResponseModel
@@ -27,7 +27,7 @@ class ResetPassword : AppCompatActivity(), View.OnClickListener {
     var etPassword: EditText? = null
     var etCPassword: EditText? = null
 
-    var mService: API? = null
+    var mService: APIRequestData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

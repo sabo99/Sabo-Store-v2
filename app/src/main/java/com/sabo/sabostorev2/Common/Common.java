@@ -6,7 +6,7 @@ import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import com.sabo.sabostorev2.API.API;
+import com.sabo.sabostorev2.API.APIRequestData;
 import com.sabo.sabostorev2.API.RetrofitAPI;
 import com.sabo.sabostorev2.Model.UserModel;
 
@@ -22,8 +22,8 @@ public class Common {
     public static final String USER_IMAGE_URL = "http://192.168.1.3/Android/SaboStore/users/";
     public static final String ITEMS_URL = "http://192.168.1.3/Android/SaboStore/items/";
 
-    public static API getAPI() {
-        return RetrofitAPI.getAPI(BASE_URL).create(API.class);
+    public static APIRequestData getAPI() {
+        return RetrofitAPI.getAPI(BASE_URL).create(APIRequestData.class);
     }
 
     public static final int MAX_SIZE_UPLOAD = (1024 * 1024) * 2; // 2 MB

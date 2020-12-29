@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sabo.sabostorev2.API.API;
+import com.sabo.sabostorev2.API.APIRequestData;
 import com.sabo.sabostorev2.Adapter.CategoriesAdapter;
 import com.sabo.sabostorev2.Common.Common;
 import com.sabo.sabostorev2.Common.ScaleCenterItemLayoutManager;
@@ -26,7 +26,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
-    private API mService;
+    private APIRequestData mService;
     private HomeViewModel homeViewModel;
     private RecyclerView rvCategories;
     private CategoriesAdapter categoriesAdapter;

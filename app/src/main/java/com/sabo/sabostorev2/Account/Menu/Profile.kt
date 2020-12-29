@@ -16,7 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
-import com.sabo.sabostorev2.API.API
+import com.sabo.sabostorev2.API.APIRequestData
 import com.sabo.sabostorev2.Account.Menu.BottomSheet.*
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.Common.FileUtils
@@ -57,7 +57,7 @@ class Profile : AppCompatActivity(), View.OnClickListener {
     private var tvPhone: TextView? = null
     private var tvGender: TextView? = null
 
-    private var mService: API? = null
+    private var mService: APIRequestData? = null
     private var compositeDisposable: CompositeDisposable? = null
     private var localUserDataSource: LocalUserDataSource? = null
 
