@@ -16,8 +16,5 @@ interface UserDAO {
     fun insertOrUpdateUser(vararg users: User): Completable
 
     @Query("DELETE FROM User WHERE uid=:uid")
-    fun clearAccount(uid: String)
-
-    @Query("DELETE FROM User WHERE uid=:uid")
-    fun removeAccount(uid: String): Completable
+    fun removeAccount(uid: String)
 }

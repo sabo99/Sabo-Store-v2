@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Sabo Store v2</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_home"></string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_categories">Categories</string>
@@ -17,4 +17,14 @@
     <string name="menu_exit">Sign out</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string-array name="filter_order_history">
+        <item>All</item>
+        <item>Order Canceled</item>
+        <item>Ordered</item>
+        <item>On Process</item>
+        <item>Shipped</item>
+        <item>Received</item>
+    </string-array>
 </resources>

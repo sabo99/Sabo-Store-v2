@@ -4,6 +4,7 @@ class UserModel {
     var uid: String? = null
     var email: String? = null
     var username: String? = null
+    var nickname: String? = null
     var image: String? = null
     var phone: String? = null
     var countryCode: String? = null

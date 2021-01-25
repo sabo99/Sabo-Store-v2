@@ -14,11 +14,7 @@ class LocalUserDataSource(private val userDAO: UserDAO) : UserDataSource {
         return userDAO.insertOrUpdateUser(*users)
     }
 
-    override fun clearAccount(uid: String) {
-        return userDAO.clearAccount(uid)
-    }
-
-    override fun removeAccount(uid: String): Completable {
+    override fun removeAccount(uid: String) {
         return userDAO.removeAccount(uid)
     }
 }

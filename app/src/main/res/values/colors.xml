@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">@android:color/holo_blue_dark</color>
     <color name="colorAccent">@android:color/holo_blue_light</color>
 
+    <color name="colorTextBlueDark">#A10099CC</color>
+    <color name="colorGlassBlur">#4FFFFFFF</color>
     <color name="colorLine">#1A000000</color>
     <color name="colorShadow">#66000000</color>
 </resources>

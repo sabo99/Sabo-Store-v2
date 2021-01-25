@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".Account.Menu.SubMenu.DeleteAccount">
+    tools:context=".ui.Account.Menu.SubMenu.DeleteAccount">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                         android:id="@+id/etEmail"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="Email"
+                        android:hint="E-mail"
                         android:inputType="textEmailAddress"
                         android:textSize="16sp" />
 

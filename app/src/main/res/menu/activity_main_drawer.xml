@@ -9,16 +9,17 @@
             android:icon="@drawable/ic_home"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_categories"
+            android:onClick="onCategories"
             android:icon="@drawable/ic_shop"
             android:title="@string/menu_categories" />
         <item
-            android:id="@+id/nav_cart"
+            android:onClick="onCart"
             android:icon="@drawable/ic_cart"
             android:title="@string/menu_cart" />
         <item
             android:id="@+id/nav_order_history"
             android:icon="@drawable/ic_history"
+            android:onClick="onOrderHistory"
             android:title="@string/menu_order_history" />
     </group>
 

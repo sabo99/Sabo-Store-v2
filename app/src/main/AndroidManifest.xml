@@ -14,38 +14,82 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.Cart.TestOrder" />
+        <activity android:name=".ui.Cart.TestCart" />
         <activity
-            android:name=".Account.Menu.BottomSheet.MenuPhone"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".ui.ItemDetails.ItemDetails"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar.Default" />
+        <activity
+            android:name=".ui.Categories.Categories"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar.Default" />
+        <activity
+            android:name=".ui.OrderHistory.OrderDetails"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar.Default" />
+        <activity
+            android:name=".ui.OrderHistory.OrdersHistory"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar.Default" />
+        <activity
+            android:name=".ui.Search.SearchActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar.Default" />
+        <activity
+            android:name=".ui.About.AboutActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Account.Menu.PreviewProfilePhoto"
+            android:name=".ui.Account.Menu.SubMenu.TwoStepVerification.PINCode"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.Account.Menu.SubMenu.TwoStepVerification.TwoStepVerification"
+            android:launchMode="singleTask" />
+        <activity android:name=".ui.SignIn.SignInPINActivity" />
+        <activity
+            android:name=".ui.Account.Menu.SubMenu.ChangePhone"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.Account.Menu.PreviewProfilePhoto"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.PreviewPhoto" />
         <activity
-            android:name=".Account.Menu.SubMenu.DeleteAccount"
+            android:name=".ui.Account.Menu.SubMenu.DeleteAccount"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Account.Menu.Profile"
+            android:name=".ui.Account.Menu.Profile"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Account.Menu.OrderHistory"
+            android:name=".ui.Account.Menu.Favorite"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Account.Menu.Favorite"
+            android:name=".ui.Account.Menu.SubMenu.ResetPassword"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.Account.AccountActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Account.Menu.SubMenu.ResetPassword"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".ui.Account.Menu.AccountSettings"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Account.AccountActivity"
-            android:launchMode="singleTask" />
+            android:name=".ui.Home.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Account.Menu.AccountSettings"
-            android:launchMode="singleTask" />
+            android:name=".ui.SignUp.SignUpActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.SignIn.SignInActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity
+            android:name=".ui.Splash.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,21 +97,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".SignUpActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".SignInActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
 </manifest>

@@ -8,7 +8,5 @@ interface UserDataSource {
 
     fun insertOrUpdateUser(vararg users: User): Completable
 
-    fun clearAccount(uid: String)
-
-    fun removeAccount(uid: String): Completable
+    fun removeAccount(uid: String)
 }

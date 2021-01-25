@@ -14,9 +14,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civHeader"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_centerHorizontal="true"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginTop="24dp"
             android:src="@drawable/no_profile" />
 
@@ -24,10 +23,10 @@
             android:id="@+id/tvHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/civHeader"
-            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@id/civHeader"
             android:fontFamily="sans-serif"
-            android:paddingTop="8dp"
             android:text="@string/nav_header_title"
             android:textColor="@color/white"
             android:textSize="20sp" />

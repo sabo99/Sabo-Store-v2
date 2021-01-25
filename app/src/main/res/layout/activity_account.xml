@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Account.AccountActivity">
+    tools:context=".ui.Account.AccountActivity">
 
     <LinearLayout
         android:id="@+id/profile"
@@ -17,7 +17,7 @@
         android:padding="16dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/civPhotoProfile"
+            android:id="@+id/civProfile"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/no_profile" />
@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Reset password, delete account" />
+                android:text="Reset password, change phone number" />
 
 
         </LinearLayout>
@@ -139,47 +139,6 @@
 
         </LinearLayout>
 
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/orderHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/ic_history"
-            app:tint="@color/colorAccent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingTop="2dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:text="Order History"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:text="List of your order history" />
-
-        </LinearLayout>
 
     </LinearLayout>
 

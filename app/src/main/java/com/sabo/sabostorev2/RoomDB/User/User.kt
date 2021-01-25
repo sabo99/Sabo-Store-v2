@@ -17,6 +17,9 @@ class User {
     @ColumnInfo(name = "username")
     var username: String? = null
 
+    @ColumnInfo(name = "nickname")
+    var nickname: String? = null
+
     @ColumnInfo(name = "image")
     var image: String? = null
 

@@ -35,6 +35,20 @@ public class Preferences {
         return getSharedPreference(context).getBoolean(Common.SF_KEY_LOG_IN, false);
     }
 
+    /** LOGGED IN WITH PIN
+     * @param context
+     * @param isPIN
+     */
+    public static void setIsPIN(Context context, boolean isPIN){
+        SharedPreferences.Editor editor = getSharedPreference(context).edit();
+        editor.putBoolean(Common.SF_KEY_LOG_IN_PIN, isPIN).apply();
+    }
+
+    public static boolean getIsPIN(Context context){
+        return getSharedPreference(context).getBoolean(Common.SF_KEY_LOG_IN_PIN, false);
+    }
+
+
     /** Clear All SharedPreferences
      * @param context
      */

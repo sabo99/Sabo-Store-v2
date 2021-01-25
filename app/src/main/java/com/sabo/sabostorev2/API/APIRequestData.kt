@@ -1,11 +1,22 @@
 package com.sabo.sabostorev2.API
 
+
+import com.sabo.sabostorev2.Model.ExchangeRates.Currency
 import com.sabo.sabostorev2.Model.ResponseModel
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 
+
 interface APIRequestData {
+
+    /**
+     * ExchangeRatesAPI
+     */
+
+    @GET("latest?base=USD")
+    fun getExchangeRatesAPI(): Call<Currency>
+
 
     /**
      * Sign Up
@@ -25,6 +36,14 @@ interface APIRequestData {
     fun signIn(@Field("email") email: String?,
                @Field("username") username: String?,
                @Field("password") password: String?): Call<ResponseModel>
+
+    /**
+     * Sign In with PIN
+     */
+    @FormUrlEncoded
+    @POST("signInWithPIN.php")
+    fun signInWithPIN(@Field("uid") uid: String?,
+                      @Field("PIN") PIN: String?): Call<ResponseModel>
 
     /**
      * Sign Out
@@ -65,6 +84,16 @@ interface APIRequestData {
                                 @Field("password") password: String?,
                                 @Field("email") email: String?,
                                 @Field("username") username: String?): Call<ResponseModel>
+
+    /**
+     * Update User Nickname
+     */
+    @FormUrlEncoded
+    @POST("updateUserNickname.php")
+    fun updateUserNickname(@Field("uid") uid: String?,
+                           @Field("password") password: String?,
+                           @Field("nickname") nickname: String?): Call<ResponseModel>
+
 
     /**
      * Update User Gender
@@ -112,13 +141,24 @@ interface APIRequestData {
                         @Field("phone") phone: String?,
                         @Field("countryCode") countryCode: String?): Call<ResponseModel>
 
+    /**
+     * UpdateUserPIN
+     */
+    @FormUrlEncoded
+    @POST("updateUserPIN.php")
+    fun updateUserPIN(@Field("uid") uid: String?,
+                      @Field("isPIN") isPIN: Int?,
+                      @Field("PIN") PIN: String?): Call<ResponseModel>
+
 
     /**
      * Remove User Account
      */
     @FormUrlEncoded
     @POST("removeAccount.php")
-    fun removeAccount(@Field("uid") uid: String?): Call<ResponseModel>
+    fun removeAccount(@Field("uid") uid: String?,
+                      @Field("email") email: String?,
+                      @Field("password") password: String?): Call<ResponseModel>
 
 
     /**
@@ -146,6 +186,13 @@ interface APIRequestData {
 
 
     /**
+     * ItemSearch
+     */
+    @GET("getItemSearch.php")
+    fun getItemSearch(): Call<ResponseModel>
+
+
+    /**
      * ItemStore
      */
     @GET("getItemStore.php")
@@ -166,4 +213,39 @@ interface APIRequestData {
     @FormUrlEncoded
     @POST("getItemDetails.php")
     fun getItemsDetails(@Field("id") id: String?): Call<ResponseModel>
+
+
+    /**
+     * Items ORDER
+     */
+    @FormUrlEncoded
+    @POST("inOrders.php")
+    fun order(@Field("orderID") orderID: String?,
+              @Field("uid") uid: String?,
+              @Field("totalPrice") totalPrice: Double?): Call<ResponseModel>
+
+
+    @FormUrlEncoded
+    @POST("inOrderDetails.php")
+    fun orderDetail(@Field("orderID") orderID: String?,
+                    @Field("itemName") itemName: String?,
+                    @Field("itemQuantity") itemQuantity: Int?,
+                    @Field("itemPrice") price: Double?,
+                    @Field("itemImage") itemImage: String?): Call<ResponseModel>
+
+
+    @FormUrlEncoded
+    @POST("getOrders.php")
+    fun getOrders(@Field("uid") uid: String?): Call<ResponseModel>
+
+
+    @FormUrlEncoded
+    @POST("getOrdersByStatus.php")
+    fun getOrdersByStatus(@Field("uid") uid: String?,
+                          @Field("orderStatus") orderStatus: Int?): Call<ResponseModel>
+
+
+    @FormUrlEncoded
+    @POST("getOrderDetails.php")
+    fun getOrderDetails(@Field("orderID") orderID: String?): Call<ResponseModel>
 }

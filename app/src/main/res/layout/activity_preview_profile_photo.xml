@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".Account.Menu.PreviewProfilePhoto">
+    tools:context=".ui.Account.Menu.PreviewProfilePhoto">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:layout_width="match_parent"

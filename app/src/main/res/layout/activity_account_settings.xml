@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="8dp"
-    tools:context=".Account.Menu.AccountSettings">
+    tools:context=".ui.Account.Menu.AccountSettings">
 
     <LinearLayout
         android:id="@+id/twoStepVerify"
