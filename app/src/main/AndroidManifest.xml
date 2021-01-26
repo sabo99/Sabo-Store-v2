@@ -4,7 +4,8 @@
     package="com.sabo.sabostorev2">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -22,6 +23,10 @@
         <activity android:name=".ui.Cart.TestCart" />
         <activity
             android:name=".ui.ItemDetails.ItemDetails"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar.Default" />
+        <activity
+            android:name=".ui.Categories.CategoriesSelected"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar.Default" />
         <activity

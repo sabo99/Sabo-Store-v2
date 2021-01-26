@@ -43,6 +43,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:gravity="center"
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="2"
                 android:text="Name"
                 android:textColor="@color/white"
                 android:textSize="16sp"
@@ -54,6 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:gravity="center"
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="2"
                 android:text="Description"
                 android:textColor="@color/white"
                 android:textSize="12sp" />

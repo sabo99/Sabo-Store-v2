@@ -20,6 +20,7 @@ import com.sabo.sabostorev2.Model.ResponseModel
 import com.sabo.sabostorev2.R
 import com.sabo.sabostorev2.ui.Categories.Categories
 import maes.tech.intentanim.CustomIntent
+import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

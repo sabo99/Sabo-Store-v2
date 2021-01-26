@@ -49,6 +49,8 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -310,6 +312,9 @@ public class HomeActivity extends AppCompatActivity {
                 }));
     }
 
+    public void onSearch(View view) {
+        startActivity(new Intent(this, SearchActivity.class));
+    }
 
     public void onCategories(MenuItem item) {
         drawer.closeDrawers();

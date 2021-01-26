@@ -67,6 +67,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener {
             tilEmail.isHelperTextEnabled = false
             tilPassword.isHelperTextEnabled = true
             tilPassword.helperText = "Password too short (Minimal 6 digit)"
+            tilPassword.setHelperTextColor(ColorStateList.valueOf(resources.getColor(android.R.color.holo_red_dark)))
         } else {
             tilEmail.isHelperTextEnabled = false
             tilPassword.isHelperTextEnabled = false
@@ -109,7 +110,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener {
                         clearColorFields()
                         val userModel = response.body()!!.user
                         Preferences.setUID(this@SignUp, userModel.uid)
-                        Preferences.setIsPIN(this@SignUp, true)
+                        Preferences.setIsLogIn(this@SignUp, true)
 
                         val sweet = SweetAlertDialog(this@SignUp, SweetAlertDialog.SUCCESS_TYPE)
                         sweet.titleText = "Success!"

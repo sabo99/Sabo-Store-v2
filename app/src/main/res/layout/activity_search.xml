@@ -58,8 +58,11 @@
                 android:layout_marginTop="40dp"
                 android:fontFamily="sans-serif"
                 android:gravity="center_horizontal"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="2"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <ProgressBar
                 android:id="@+id/progressBar"

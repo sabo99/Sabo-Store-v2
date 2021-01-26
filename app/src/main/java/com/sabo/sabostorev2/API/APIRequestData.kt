@@ -207,12 +207,12 @@ interface APIRequestData {
     fun getItems(@Field("itemId") itemId: String?): Call<ResponseModel>
 
 
-    /**
-     * Item Details
-     */
-    @FormUrlEncoded
-    @POST("getItemDetails.php")
-    fun getItemsDetails(@Field("id") id: String?): Call<ResponseModel>
+//    /**
+//     * Item Details
+//     */
+//    @FormUrlEncoded
+//    @POST("getItemDetails.php")
+//    fun getItemsDetails(@Field("id") id: String?): Call<ResponseModel>
 
 
     /**

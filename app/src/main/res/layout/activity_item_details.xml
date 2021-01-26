@@ -56,8 +56,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient_blue"
         android:paddingBottom="90dp"
-        android:background="@color/colorGlassBlur"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <include layout="@layout/content_item_details" />
@@ -75,13 +75,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/border_top_glass_blur"/>
+            android:background="@drawable/border_top_glass_blur" />
 
         <LinearLayout
-            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/tvItemName"

@@ -220,12 +220,12 @@ class ChangePhone : AppCompatActivity(), View.OnClickListener {
 
             mService!!.updateUserPhone(uid, phone, countryCode).enqueue(object : Callback<ResponseModel> {
                 override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                    val code = response.body()!!.code
+                    val scode = response.body()!!.code
                     sweetLoading.dismissWithAnimation()
-                    if (code == 1) {
+                    if (scode == 1) {
                         Toast.makeText(this@ChangePhone, "Verify code failed", Toast.LENGTH_SHORT).show()
                     }
-                    if (code == 2) {
+                    if (scode == 2) {
                         /** Update Phone In DB Local */
                         updateDBLocal(phone, countryCode)
                         EventBus.getDefault().postSticky(UpdateProfileEvent(true))

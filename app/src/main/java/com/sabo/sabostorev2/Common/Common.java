@@ -94,10 +94,9 @@ public class Common {
 
     private static APIRequestData mService = getAPI();
     public static double ratesIDR;
-    @Nullable
-    public static List<ItemStoreModel> itemStoreModels;
-    @NotNull
-    public static ItemsModel itemDetails;
+    @Nullable public static List<ItemStoreModel> itemStoreModels;
+    @NotNull public static ItemStoreModel categoriesSelected;
+    @NotNull public static ItemsModel itemDetails;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable

@@ -40,12 +40,12 @@
             android:id="@+id/tvEmptySearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="200dp"
             android:gravity="center"
             android:shadowColor="@android:color/black"
             android:shadowRadius="4"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <ProgressBar

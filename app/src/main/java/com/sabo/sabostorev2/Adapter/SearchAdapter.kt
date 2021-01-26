@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sabo.sabostorev2.Common.Common
@@ -18,6 +19,7 @@ import maes.tech.intentanim.CustomIntent
 class SearchAdapter(private val context: Context, private val itemsModelList: List<ItemsModel>) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val itemClick: LinearLayout = itemView.findViewById(R.id.itemClick)
         val ivItemImg: ImageView = itemView.findViewById(R.id.ivItemImg)
         val tvItemName: TextView = itemView.findViewById(R.id.tvItemName)
         val tvItemPrice: TextView = itemView.findViewById(R.id.tvItemPrice)
@@ -45,7 +47,7 @@ class SearchAdapter(private val context: Context, private val itemsModelList: Li
         holder.tvItemName.text = list.name
         holder.tvItemPrice.text = "$ ${Common.formatPriceUSDToDouble(list.price.div(Common.ratesIDR))}"
 
-        holder.itemView.setOnClickListener {
+        holder.itemClick.setOnClickListener {
             Common.itemDetails = list
             context.startActivity(Intent(context, ItemDetails::class.java))
             CustomIntent.customType(context, Common.LTR)

@@ -15,8 +15,8 @@ import com.sabo.sabostorev2.API.APIRequestData
 import com.sabo.sabostorev2.Adapter.CategoriesAdapter
 import com.sabo.sabostorev2.Adapter.ItemCategoriesSelectionAdapter
 import com.sabo.sabostorev2.Common.Common
-import com.sabo.sabostorev2.EventBus.OnCategoriesSelectedEvent
 import com.sabo.sabostorev2.EventBus.OnLoadCategoriesEvent
+import com.sabo.sabostorev2.Model.Item.ItemStoreModel
 import com.sabo.sabostorev2.Model.Item.ItemsModel
 import com.sabo.sabostorev2.Model.ResponseModel
 import com.sabo.sabostorev2.R
@@ -58,10 +58,7 @@ class Categories : AppCompatActivity() {
 
         simpleSearchView.setOnSearchViewListener(object : SimpleSearchViewListener() {
             override fun onSearchViewClosed() {
-                if (isCategoriesSelected)
-                    loadCategoriesByItemId(sessionItemId)
-                else
-                    loadCategories()
+                onResume()
                 tvEmptySearch.text = ""
                 super.onSearchViewClosed()
             }
@@ -81,14 +78,18 @@ class Categories : AppCompatActivity() {
                 return false
             }
         })
+
+        loadItemCategoriesSelection()
     }
 
     override fun onResume() {
         super.onResume()
-        loadItemCategoriesSelection()
-        if (isCategoriesSelected)
-            loadCategoriesByItemId(sessionItemId)
-        else
+        if (isCategoriesSelected) {
+            if (sessionItemId == "all")
+                loadCategories()
+            else
+                loadCategoriesByItemId(sessionItemId)
+        } else
             loadCategories()
     }
 
@@ -131,9 +132,17 @@ class Categories : AppCompatActivity() {
     }
 
     private fun loadItemCategoriesSelection() {
+        val itemList: ArrayList<ItemStoreModel> = ArrayList()
         val itemCategoriesSelection = Common.itemStoreModels
         if (itemCategoriesSelection!!.isNotEmpty()) {
-            rvItemCategoriesSelection.adapter = ItemCategoriesSelectionAdapter(this, itemCategoriesSelection)
+            val item0 = ItemStoreModel()
+            item0.id = "all"
+            item0.name = "All"
+            item0.description = "none"
+            item0.image = "none"
+            itemList.add(0, item0)
+            itemList.addAll(itemCategoriesSelection)
+            rvItemCategoriesSelection.adapter = ItemCategoriesSelectionAdapter(this, itemList)
         }
     }
 
@@ -168,22 +177,15 @@ class Categories : AppCompatActivity() {
     fun onLoadCategoriesBySession(event: OnLoadCategoriesEvent) {
         if (event.isSession) {
             sessionItemId = event.sessionItemId
+            if (sessionItemId == "all")
+                loadCategories()
+            else {
+                isCategoriesSelected = true
+                loadCategoriesByItemId(sessionItemId)
+            }
             tvEmptySearch.text = ""
             simpleSearchView.closeSearch()
-            loadCategoriesByItemId(sessionItemId)
             event.isSession = false
-        }
-    }
-
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    fun onCategoriesSelected(event: OnCategoriesSelectedEvent){
-        if (event.isSelected){
-            isCategoriesSelected = true
-            sessionItemId = event.itemStoreModel.id!!
-            rvItemCategoriesSelection.visibility = View.GONE
-            loadCategoriesByItemId(sessionItemId)
-            supportActionBar!!.title = event.itemStoreModel.name
-            event.isSelected = false
         }
     }
 

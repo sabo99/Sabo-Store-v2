@@ -185,7 +185,7 @@ class SignIn : AppCompatActivity(), View.OnClickListener {
                 val email = etEmail.text.toString()
                 /** State 0 */
                 if (state == 0) {
-                    if (email.isNullOrEmpty()) {
+                    if (email.isEmpty()) {
                         tilEmail.isHelperTextEnabled = true
                         tilEmail.helperText = "Email is required"
                         tilEmail.setHelperTextColor(ColorStateList.valueOf(resources.getColor(android.R.color.holo_red_dark)))
