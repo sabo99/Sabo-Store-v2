@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.OrderHistory
 
 import androidx.appcompat.app.AppCompatActivity
@@ -50,8 +52,8 @@ class OrderDetails : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
                 sweetLoading.dismissWithAnimation()
                 rvOrderDetails.adapter = OrderDetailsAdapter(this@OrderDetails, response.body()!!.orderDetails)
-                var totalPrice = intent.getStringExtra("orderID")
-                tvTotalPrice.text = "Total Price : $ $totalPrice"
+                val totalPrice = intent.getDoubleExtra("totalPrice", 0.00)
+                tvTotalPrice.text = "Total Price : $ ${Common.formatPriceUSDToString(totalPrice)}"
             }
 
             override fun onFailure(call: Call<ResponseModel>, t: Throwable) {

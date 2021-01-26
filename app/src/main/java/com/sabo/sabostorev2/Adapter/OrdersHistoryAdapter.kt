@@ -1,5 +1,6 @@
 package com.sabo.sabostorev2.Adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -28,7 +29,7 @@ class OrdersHistoryAdapter(private val context: Context, private val ordersModel
 
     private var mService: APIRequestData = Common.getAPI()
     private var calendar: Calendar = Calendar.getInstance()
-    private var date: Date? = null
+    private var date: Date = Date()
     private var simpleDateFormat: SimpleDateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -57,16 +58,16 @@ class OrdersHistoryAdapter(private val context: Context, private val ordersModel
         holder.tvTotalPrice.text = "$ ${Common.formatPriceUSDToString(list.totalPrice)}"
 
         /** Event Order Details */
-        holder.tvMore.setOnClickListener{
+        holder.tvMore.setOnClickListener {
             val i = Intent(context, OrderDetails::class.java)
             i.putExtra("orderID", list.orderID)
-            i.putExtra("totalPrice", Common.formatPriceUSDToDouble(list.totalPrice))
+            i.putExtra("totalPrice", list.totalPrice)
             context.startActivity(i)
-            CustomIntent.customType(context, Common.FINFOUT) }
+            CustomIntent.customType(context, Common.FINFOUT)
+        }
 
         /** Check Order Status */
         Common.checkOrderStatus(holder.ivLogoStatus, holder.tvOrderStatus, list.orderStatus)
-
 
         /** OrderDetails */
         loadOrderDetails(list, holder)
@@ -76,9 +77,9 @@ class OrdersHistoryAdapter(private val context: Context, private val ordersModel
     private fun loadOrderDetails(list: OrdersModel, holder: ViewHolder) {
         holder.rvOrdersHistoryDetail.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        mService!!.getOrderDetails(list.orderID).enqueue(object : Callback<ResponseModel> {
+        mService.getOrderDetails(list.orderID).enqueue(object : Callback<ResponseModel> {
             override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                if (response.body()!!.orderDetails != null){
+                if (response.body()!!.orderDetails != null) {
                     holder.rvOrdersHistoryDetail.adapter = OrdersHistoryDetailAdapter(context, response.body()!!.orderDetails)
                     EventBus.getDefault().postSticky(OnLoadOrderHistoryEvent(true))
                 }

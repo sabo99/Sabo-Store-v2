@@ -131,7 +131,7 @@ class Categories : AppCompatActivity() {
     }
 
     private fun loadItemCategoriesSelection() {
-        val itemCategoriesSelection = Common.itemCategoriesSelection
+        val itemCategoriesSelection = Common.itemStoreModels
         if (itemCategoriesSelection!!.isNotEmpty()) {
             rvItemCategoriesSelection.adapter = ItemCategoriesSelectionAdapter(this, itemCategoriesSelection)
         }

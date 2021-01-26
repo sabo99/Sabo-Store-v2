@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/colorAccent"
     android:layout_height="match_parent"
-    tools:context=".ui.SignIn.SignInPINActivity">
+    tools:context=".ui.SignIn.SignInPIN">
 
     <androidx.cardview.widget.CardView
         android:layout_centerInParent="true"

@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.Cart
 
 import android.os.Bundle
@@ -110,8 +112,8 @@ class TestOrder : AppCompatActivity(), View.OnClickListener {
                         for (x in cartList.indices) {
                             mService!!.orderDetail(orderID, cartList[x].itemName, cartList[x].itemQuantity, cartList[x].itemPrice, cartList[x].itemImage).enqueue(object : Callback<ResponseModel> {
                                 override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                                    val code = response.body()!!.code
-                                    if (code == 1) {
+                                    val coded = response.body()!!.code
+                                    if (coded == 1) {
                                         /** Clear All Cart */
                                         clearAllCart()
 
@@ -138,8 +140,8 @@ class TestOrder : AppCompatActivity(), View.OnClickListener {
                     } else {
                         mService!!.orderDetail(orderID, cartList[0].itemName, cartList[0].itemQuantity, cartList[0].itemPrice, cartList[0].itemImage).enqueue(object : Callback<ResponseModel> {
                             override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                                val code = response.body()!!.code
-                                if (code == 1) {
+                                val coded = response.body()!!.code
+                                if (coded == 1) {
                                     /** Clear All Cart */
                                     clearAllCart()
 
@@ -194,12 +196,12 @@ class TestOrder : AppCompatActivity(), View.OnClickListener {
         cartDataSource!!.clearAllCart(uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : SingleObserver<Integer> {
+                .subscribe(object : SingleObserver<Int> {
                     override fun onSubscribe(d: Disposable) {
 
                     }
 
-                    override fun onSuccess(t: Integer) {
+                    override fun onSuccess(t: Int) {
                         Common.totalPrice = 0.0
                         tvTotalPrice.text = "Total Price : 0.0"
                     }

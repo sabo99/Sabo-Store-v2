@@ -19,7 +19,6 @@ import com.sabo.sabostorev2.Common.ScaleCenterItemLayoutManager
 import com.sabo.sabostorev2.Model.ResponseModel
 import com.sabo.sabostorev2.R
 import com.sabo.sabostorev2.ui.Categories.Categories
-import kotlinx.android.synthetic.main.fragment_home.*
 import maes.tech.intentanim.CustomIntent
 import retrofit2.Call
 import retrofit2.Callback
@@ -57,7 +56,7 @@ class HomeFragment : Fragment() {
         mService!!.getItemStore().enqueue(object : Callback<ResponseModel> {
             override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
                 homeViewModel!!.setMutableLiveData(response.body()!!.itemStore)
-                Common.itemCategoriesSelection = response.body()!!.itemStore
+                Common.itemStoreModels = response.body()!!.itemStore
             }
 
             override fun onFailure(call: Call<ResponseModel>, t: Throwable) {

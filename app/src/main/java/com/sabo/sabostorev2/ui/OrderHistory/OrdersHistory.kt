@@ -1,7 +1,11 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.OrderHistory
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -29,9 +33,10 @@ import retrofit2.Response
 class OrdersHistory : AppCompatActivity() {
 
     private var mService: APIRequestData? = null
-    private var orderModelList: List<OrdersModel> = ArrayList()
     private var uid = ""
     private var isShowFilter = false
+    private var sessionOrderStatus = -1
+    private var isFilter = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,22 +57,50 @@ class OrdersHistory : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        loadOrdersHistory()
+        if (isFilter && sessionOrderStatus != -1)
+            loadOrdersHistoryByStatus(sessionOrderStatus)
+        else
+            loadOrdersHistory()
     }
 
     private fun loadOrdersHistory() {
         progressBar.visibility = View.VISIBLE
         rvOrdersHistory.visibility = View.INVISIBLE
-
         mService!!.getOrders(uid).enqueue(object : Callback<ResponseModel> {
             override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
                 val code = response.body()!!.code
+                tvEmptySearch.text = ""
+                if (code == 1)
+                    rvOrdersHistory.adapter = OrdersHistoryAdapter(this@OrdersHistory, response.body()!!.orders)
+                if (code == 0)
+                    progressBar.visibility = View.INVISIBLE
+            }
+
+            override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
+                progressBar.visibility = View.INVISIBLE
+                val sweetLoading = SweetAlertDialog(this@OrdersHistory, SweetAlertDialog.WARNING_TYPE)
+                sweetLoading.setCanceledOnTouchOutside(false)
+                sweetLoading.titleText = "Oops!"
+                sweetLoading.contentText = t.message
+                sweetLoading.show()
+            }
+        })
+    }
+
+    private fun loadOrdersHistoryByStatus(sessionOrderStatus: Int) {
+        progressBar.visibility = View.VISIBLE
+        rvOrdersHistory.visibility = View.INVISIBLE
+        mService!!.getOrdersByStatus(uid, sessionOrderStatus).enqueue(object : Callback<ResponseModel> {
+            override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
+                val code = response.body()!!.code
                 if (code == 1) {
-                    orderModelList = response.body()!!.orders
-                    rvOrdersHistory.adapter = OrdersHistoryAdapter(this@OrdersHistory, orderModelList)
+                    tvEmptySearch.text = ""
+                    rvOrdersHistory.adapter = OrdersHistoryAdapter(this@OrdersHistory, response.body()!!.orders)
                 }
                 if (code == 0) {
                     progressBar.visibility = View.INVISIBLE
+                    tvEmptySearch.text = "No results"
+                    rvOrdersHistory.visibility = View.GONE
                 }
             }
 
@@ -94,18 +127,44 @@ class OrdersHistory : AppCompatActivity() {
             android.R.id.home -> finish()
             R.id.action_filter -> showFilter()
         }
-
         return super.onOptionsItemSelected(item)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun showFilter() {
-        val linear = LinearLayout(this)
-        val spFilter = Spinner(this)
-        val adapter= ArrayAdapter.createFromResource(this, R.array.filter_order_history, android.R.layout.simple_spinner_item)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_filter_order_history, null)
+        val spFilter = view.findViewById(R.id.spFilter) as Spinner
+        val sweetFilter = SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+        sweetFilter.titleText = "Filter View"
+        sweetFilter.setOnShowListener {
+            val adapter = ArrayAdapter.createFromResource(this, R.array.filter_order_history, R.layout.spinner_text_white)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spFilter.adapter = adapter
 
-        linear.addView(spFilter)
-        setContentView(linear)
+        }
+        sweetFilter.setConfirmClickListener {
+            sweetFilter.dismissWithAnimation()
+            val result = spFilter.selectedItem.toString()
+
+            if (result == "All") {
+                sessionOrderStatus = Common.statusOrderToInteger(result)
+                loadOrdersHistory()
+                isFilter = false
+            } else {
+                sessionOrderStatus = Common.statusOrderToInteger(result)
+                loadOrdersHistoryByStatus(sessionOrderStatus)
+                isFilter = true
+            }
+
+        }
+        sweetFilter.setCanceledOnTouchOutside(true)
+        sweetFilter.show()
+
+        val linearLayout = sweetFilter.findViewById(R.id.loading) as LinearLayout
+        val confirm = sweetFilter.findViewById(R.id.confirm_button) as Button
+        confirm.background = resources.getDrawable(R.drawable.accent_button_background)
+        val index = linearLayout.indexOfChild(linearLayout.findViewById(R.id.content_text))
+        linearLayout.addView(view, index + 1)
     }
 
 

@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay" >
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
 
         </androidx.appcompat.widget.Toolbar>
@@ -42,17 +42,20 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:gravity="center"
-            android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:shadowColor="@android:color/black"
+            android:shadowRadius="4"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ProgressBar
             android:id="@+id/progressBar"
-            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
             android:layout_centerInParent="true"
-            android:indeterminateTint="@color/colorAccent" />
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorAccent"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 

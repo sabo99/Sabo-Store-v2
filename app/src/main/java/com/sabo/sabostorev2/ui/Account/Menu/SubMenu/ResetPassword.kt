@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.Account.Menu.SubMenu
 
 import android.content.res.ColorStateList
@@ -20,7 +22,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ResetPassword : AppCompatActivity(), View.OnClickListener {
-
 
     var mService: APIRequestData? = null
 
@@ -49,7 +50,7 @@ class ResetPassword : AppCompatActivity(), View.OnClickListener {
         val newPassword = etPassword.text.toString()
         val cPassword = etCPassword.text.toString()
 
-        if (newPassword.isNullOrEmpty() || newPassword.length < 6) {
+        if (newPassword.isEmpty() || newPassword.length < 6) {
             tilPassword.isHelperTextEnabled = true
             tilPassword.helperText = "Password too short (Min.6)"
             tilPassword.setHelperTextColor(ColorStateList.valueOf(resources.getColor(android.R.color.holo_red_dark)))
@@ -99,7 +100,6 @@ class ResetPassword : AppCompatActivity(), View.OnClickListener {
                             .setContentText(t.message)
                             .show()
                 }
-
             })
         }
     }
@@ -108,6 +108,4 @@ class ResetPassword : AppCompatActivity(), View.OnClickListener {
         super.finish()
         CustomIntent.customType(this, Common.RTL)
     }
-
-
 }

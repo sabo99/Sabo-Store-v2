@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.Account.Menu
 
 import android.Manifest
@@ -7,17 +9,15 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
 import com.sabo.sabostorev2.API.APIRequestData
-import com.sabo.sabostorev2.ui.Account.Menu.BottomSheet.*
-import com.sabo.sabostorev2.ui.Account.Menu.SubMenu.ChangePhone
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.Common.FileUtils
 import com.sabo.sabostorev2.Common.Preferences
@@ -30,6 +30,8 @@ import com.sabo.sabostorev2.RoomDB.RoomDBHost
 import com.sabo.sabostorev2.RoomDB.User.LocalUserDataSource
 import com.sabo.sabostorev2.RoomDB.User.User
 import com.sabo.sabostorev2.RoomDB.User.UserDataSource
+import com.sabo.sabostorev2.ui.Account.Menu.BottomSheet.*
+import com.sabo.sabostorev2.ui.Account.Menu.SubMenu.ChangePhone
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -83,11 +85,13 @@ class Profile : AppCompatActivity(), View.OnClickListener {
         findViewById<RelativeLayout>(R.id.menuGender).setOnClickListener(this)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
         loadData()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun loadData() {
         val uid = Preferences.getUID(this)
 
@@ -187,6 +191,7 @@ class Profile : AppCompatActivity(), View.OnClickListener {
         compositeDisposable!!.clear()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun updateProfileEvent(event: UpdateProfileEvent) {
         if (event.isUpdated) {
@@ -236,7 +241,7 @@ class Profile : AppCompatActivity(), View.OnClickListener {
 
         mService!!.removeUserImage(uid, image).enqueue(object : Callback<ResponseModel> {
             override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                val message: String = response.body()!!.message
+                val message = response.body()!!.message
 
                 val userModel = response.body()!!.user
                 Common.currentUser = userModel
@@ -253,13 +258,10 @@ class Profile : AppCompatActivity(), View.OnClickListener {
                 compositeDisposable!!.add(userDataSource!!.insertOrUpdateUser(user)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
+                        .subscribe {
                             pleaseWait.dismissWithAnimation()
                             Picasso.get().load(R.drawable.no_profile).into(civProfile)
                             Toast.makeText(this@Profile, message, Toast.LENGTH_SHORT).show()
-                        })
-                        { throwable: Throwable ->
-                            Log.d("user", throwable.message)
                         })
             }
 
@@ -349,7 +351,7 @@ class Profile : AppCompatActivity(), View.OnClickListener {
             uploading.setTitleText("Oops!")
                     .setContentText("File size too large")
                     .setConfirmText("Close")
-                    .setConfirmClickListener { uploading: SweetAlertDialog ->
+                    .setConfirmClickListener {
                         uploading.dismiss()
                     }.changeAlertType(SweetAlertDialog.WARNING_TYPE)
             pickImgUri = null
@@ -360,23 +362,23 @@ class Profile : AppCompatActivity(), View.OnClickListener {
 
             /** File Name & Extension*/
             val fileNameFromUri: String = FileUtils.getFileNameFromUri(result)
-            val parts: List<String> = fileNameFromUri.split(".")
-            val name: Long = System.currentTimeMillis()
-            val extension: String = parts[1]
+            val parts = fileNameFromUri.split(".")
+            val name = System.currentTimeMillis()
+            val extension = parts[1]
             val fileName = "$name.$extension"
 
             if (!filePath.isNullOrEmpty()) {
                 val file = File(filePath)
 
-                val requestBody: RequestBody = RequestBody.create(MediaType.parse("*/*"), file)
-                val uid: MultipartBody.Part = MultipartBody.Part.createFormData("uid", Common.currentUser.uid)
-                val fileBody: MultipartBody.Part = MultipartBody.Part.createFormData("file", fileName, requestBody)
-                val oldFileName: MultipartBody.Part = MultipartBody.Part.createFormData("oldFileName", Common.currentUser.image)
+                val requestBody = RequestBody.create(MediaType.parse("*/*"), file) as RequestBody
+                val uid = MultipartBody.Part.createFormData("uid", Common.currentUser.uid!!)
+                val fileBody = MultipartBody.Part.createFormData("file", fileName, requestBody)
+                val oldFileName = MultipartBody.Part.createFormData("oldFileName", Common.currentUser.image!!)
 
                 mService!!.updateUserImage(uid, fileBody, oldFileName).enqueue(object : Callback<ResponseModel> {
                     override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                        val code: Int = response.body()!!.code
-                        val message: String = response.body()!!.message
+                        val code = response.body()!!.code
+                        val message = response.body()!!.message
                         if (code == 1) {
 
                             val userModel = response.body()!!.user
@@ -394,7 +396,7 @@ class Profile : AppCompatActivity(), View.OnClickListener {
                             compositeDisposable!!.add(userDataSource!!.insertOrUpdateUser(user)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe({
+                                    .subscribe {
                                         uploading.dismissWithAnimation()
                                         SweetAlertDialog(this@Profile, SweetAlertDialog.SUCCESS_TYPE)
                                                 .setTitleText("Success!")
@@ -403,9 +405,6 @@ class Profile : AppCompatActivity(), View.OnClickListener {
                                         Picasso.get().load(result).placeholder(R.drawable.no_profile).into(civProfile)
                                         pickImgUri = null
                                         resultImgUri = null
-                                    })
-                                    { throwable: Throwable ->
-                                        Log.d("user", throwable.message)
                                     })
                         }
                     }
@@ -425,5 +424,4 @@ class Profile : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-
 }

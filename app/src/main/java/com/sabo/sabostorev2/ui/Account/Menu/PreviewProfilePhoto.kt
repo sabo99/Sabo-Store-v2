@@ -11,7 +11,6 @@ import maes.tech.intentanim.CustomIntent
 
 class PreviewProfilePhoto : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preview_profile_photo)
@@ -31,11 +30,8 @@ class PreviewProfilePhoto : AppCompatActivity() {
 
     private fun loadProfilePhoto() {
         val image = intent.getStringExtra(Common.INTENT_IMG)
-        if (image.isNotEmpty()){
-            val img = Common.USER_IMAGE_URL + image
-            Picasso.get().load(img).placeholder(R.drawable.no_profile).into(pvProfilePhoto)
-        }
-
+        val img = Common.USER_IMAGE_URL + image
+        Picasso.get().load(img).placeholder(R.drawable.no_profile).into(pvProfilePhoto)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

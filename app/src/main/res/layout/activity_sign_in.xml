@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorLine"
-    tools:context=".ui.SignIn.SignInActivity">
+    tools:context=".ui.SignIn.SignIn">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:scaleX="-1"
-        android:background="@drawable/ic_wave" />
+        android:background="@drawable/ic_wave"
+        android:scaleX="-1" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_alignParentBottom="true"
-        android:scaleY="-1"
-        android:background="@drawable/ic_wave" />
+        android:background="@drawable/ic_wave"
+        android:scaleY="-1" />
 
 
     <androidx.cardview.widget.CardView
@@ -142,6 +142,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:elevation="8dp"
         android:indeterminate="true"
         android:indeterminateTint="@color/colorAccent"
         android:visibility="invisible" />

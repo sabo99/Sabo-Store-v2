@@ -12,13 +12,13 @@ interface CartDataSource {
 
     fun insertOrReplaceAll(vararg cart: Cart): Completable
 
-    fun updateQtyItemInCart(cart: Cart): Single<Integer>
+    fun updateQtyItemInCart(cart: Cart): Single<Int>
 
-    fun deleteItemInCart(cart: Cart): Single<Integer>
+    fun deleteItemInCart(cart: Cart): Single<Int>
 
-    fun countItemInCart(uid: String): Single<Integer>
+    fun countItemInCart(uid: String): Single<Int>
 
     fun getTotalPrice(uid: String): Single<Double>
 
-    fun clearAllCart(uid: String): Single<Integer>
+    fun clearAllCart(uid: String): Single<Int>
 }

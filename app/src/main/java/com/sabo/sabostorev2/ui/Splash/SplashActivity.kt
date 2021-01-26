@@ -7,14 +7,13 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.Common.Preferences
-import com.sabo.sabostorev2.ui.Home.HomeActivity
 import com.sabo.sabostorev2.R
-import com.sabo.sabostorev2.ui.SignIn.SignInActivity
+import com.sabo.sabostorev2.ui.Home.HomeActivity
+import com.sabo.sabostorev2.ui.SignIn.SignIn
 import kotlinx.android.synthetic.main.activity_splash.*
 import maes.tech.intentanim.CustomIntent
 
 class SplashActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +26,10 @@ class SplashActivity : AppCompatActivity() {
             if (Preferences.getIsLogIn(this))
                 startActivity(Intent(this, HomeActivity::class.java))
             else
-                startActivity(Intent(this, SignInActivity::class.java))
+                startActivity(Intent(this, SignIn::class.java))
 
             CustomIntent.customType(this, Common.FINFOUT)
             finish()
-
         }, 2000)
     }
 }

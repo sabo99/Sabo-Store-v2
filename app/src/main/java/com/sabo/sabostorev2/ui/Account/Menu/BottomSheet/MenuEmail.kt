@@ -1,5 +1,9 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.Account.Menu.BottomSheet
 
+import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -84,19 +88,18 @@ class MenuEmail : BottomSheetDialogFragment(), View.OnClickListener {
                 etPassword!!.setText("")
                 instance!!.dismiss()
             }
-            R.id.btnConfirm -> {
-                reauth()
-            }
+            R.id.btnConfirm -> reAuth()
         }
     }
 
-    private fun reauth() {
-        val uid: String = Preferences.getUID(context)
-        val username: String? = Common.currentUser.username
-        val email: String = etEmail.text.toString()
-        val password: String = etPassword.text.toString()
+    @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
+    private fun reAuth() {
+        val uid = Preferences.getUID(context)
+        val username = Common.currentUser.username
+        val email = etEmail.text.toString()
+        val password = etPassword.text.toString()
 
-        if (email.isNullOrEmpty()) {
+        if (email.isEmpty()) {
             tvEmailError.text = "Email - Can't be null"
             tvEmailError.setTextColor(requireContext().resources.getColor(android.R.color.holo_red_dark))
             etEmail.background = requireContext().resources.getDrawable(R.drawable.border_danger)
@@ -119,8 +122,8 @@ class MenuEmail : BottomSheetDialogFragment(), View.OnClickListener {
 
             mService!!.updateUserEmailUsername(uid, password, email, username).enqueue(object : Callback<ResponseModel> {
                 override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                    val code: Int = response.body()!!.code
-                    val message: String = response.body()!!.message
+                    val code = response.body()!!.code
+                    val message = response.body()!!.message
                     if (code == 1) {
                         sweetLoading.dismissWithAnimation()
                         tvPasswordError.text = "Current Password - $message"
@@ -169,11 +172,8 @@ class MenuEmail : BottomSheetDialogFragment(), View.OnClickListener {
                         compositeDisposable!!.add(userDataSource!!.insertOrUpdateUser(user)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe({
+                                .subscribe{
                                     EventBus.getDefault().postSticky(UpdateProfileEvent(true))
-                                })
-                                { throwable: Throwable ->
-                                    Log.d("user", throwable.message)
                                 })
                     }
                 }
@@ -193,6 +193,4 @@ class MenuEmail : BottomSheetDialogFragment(), View.OnClickListener {
         super.onStop()
         compositeDisposable!!.clear()
     }
-
-
 }

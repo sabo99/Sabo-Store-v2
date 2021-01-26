@@ -16,7 +16,6 @@ import com.sabo.sabostorev2.Model.Item.ItemsModel
 import com.sabo.sabostorev2.Model.ResponseModel
 import com.sabo.sabostorev2.R
 import kotlinx.android.synthetic.main.activity_search.*
-import maes.tech.intentanim.CustomIntent
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,9 +40,8 @@ class SearchActivity : AppCompatActivity() {
         supportActionBar!!.title = "Sabo Store"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        val w = window
+//        val w = window
 //        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-
         rvSearch.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         simpleSearchView.setOnSearchViewListener(object : SimpleSearchViewListener() {
@@ -88,7 +86,6 @@ class SearchActivity : AppCompatActivity() {
                         searchList = response.body()!!.items
                     }
                 }, 500)
-
             }
 
             override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
@@ -122,7 +119,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId === android.R.id.home) finish()
+        if (item.itemId == android.R.id.home) finish()
         return super.onOptionsItemSelected(item)
     }
 
@@ -132,10 +129,8 @@ class SearchActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-
     override fun finish() {
         super.finish()
         simpleSearchView.closeSearch()
-        //CustomIntent.customType(this, Common.UTB)
     }
 }

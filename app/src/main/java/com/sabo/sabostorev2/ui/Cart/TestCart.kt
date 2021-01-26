@@ -1,5 +1,8 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.Cart
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -87,15 +90,14 @@ class TestCart : AppCompatActivity(), View.OnClickListener {
         compositeDisposable!!.add(cartDataSource!!.getAllCart(uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ cartList ->
+                .subscribe { cartList ->
                     val cartAdapter = CartAdapter(this, cartList)
                     rvCart.adapter = cartAdapter
                     Log.d("cartList", cartList.toString())
-
                 })
-                { throwable: Throwable -> Log.d("loadCartList", throwable.message) })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getTotalPrice() {
         cartDataSource!!.getTotalPrice(uid)
                 .subscribeOn(Schedulers.io())
@@ -125,11 +127,11 @@ class TestCart : AppCompatActivity(), View.OnClickListener {
         val price = etPrice.text.toString()
         val qty = etQty.text.toString()
 
-        if (name.isNullOrEmpty())
+        if (name.isEmpty())
             etName.error = "Please Input Name!"
-        else if (price.isNullOrEmpty())
+        else if (price.isEmpty())
             etPrice.error = "Please Input Price!"
-        else if (qty.isNullOrEmpty())
+        else if (qty.isEmpty())
             etQty.error = "Please Input Quantity!"
         else {
             btnAddCart.visibility = View.VISIBLE
@@ -159,7 +161,7 @@ class TestCart : AppCompatActivity(), View.OnClickListener {
                             getTotalPrice()
                         })
                         { throwable: Throwable ->
-                            Log.d("cart", throwable.message)
+                            //Log.d("cart", throwable.message)
                             sweetLoading.titleText = "Oops!"
                             sweetLoading.contentText = throwable.message
                             sweetLoading.setConfirmClickListener {
@@ -182,6 +184,7 @@ class TestCart : AppCompatActivity(), View.OnClickListener {
         etName.requestFocus()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun clearAllCart() {
         val sweetLoading = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
         sweetLoading.titleText = "Please wait..."
@@ -189,15 +192,15 @@ class TestCart : AppCompatActivity(), View.OnClickListener {
         sweetLoading.progressHelper.barColor = resources.getColor(R.color.colorAccent)
         sweetLoading.show()
 
-        cartDataSource!!.clearAllCart(uid!!)
+        cartDataSource!!.clearAllCart(uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : SingleObserver<Integer> {
+                .subscribe(object : SingleObserver<Int> {
                     override fun onSubscribe(d: Disposable) {
 
                     }
 
-                    override fun onSuccess(t: Integer) {
+                    override fun onSuccess(t: Int) {
                         sweetLoading.dismissWithAnimation()
                         tvTotalPrice.text = "Total Price :"
                         Common.totalPrice = 0.0

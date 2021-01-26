@@ -1,11 +1,12 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.Account.Menu.BottomSheet
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.Gravity
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,8 +28,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_menu_nickname.*
-import kotlinx.android.synthetic.main.fragment_menu_nickname.etPassword
-import kotlinx.android.synthetic.main.fragment_menu_nickname.tvPasswordError
 import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,16 +37,17 @@ import retrofit2.Response
 class MenuNickname : BottomSheetDialogFragment(), View.OnClickListener {
 
     companion object {
-        private var instance: MenuNickname?= null
-        fun getInstance(): MenuNickname?{
+        private var instance: MenuNickname? = null
+        fun getInstance(): MenuNickname? {
             if (instance == null)
                 instance = MenuNickname()
             return instance
         }
     }
+
     private var mService: APIRequestData? = null
-    private var compositeDisposable: CompositeDisposable?= null
-    private var userDataSource: UserDataSource?= null
+    private var compositeDisposable: CompositeDisposable? = null
+    private var userDataSource: UserDataSource? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -85,18 +85,17 @@ class MenuNickname : BottomSheetDialogFragment(), View.OnClickListener {
                 etPassword!!.setText("")
                 instance!!.dismiss()
             }
-            R.id.btnConfirm -> {
-                reauth()
-            }
+            R.id.btnConfirm -> reAuth()
         }
     }
 
-    private fun reauth() {
+    @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
+    private fun reAuth() {
         val uid = Preferences.getUID(context)
         val nickname = etNickname.text.toString()
         val password = etPassword.text.toString()
 
-        if (nickname.isNullOrEmpty()){
+        if (nickname.isEmpty()) {
             tvNicknameError.text = "Nickname - Can't be null"
             tvNicknameError.setTextColor(requireContext().resources.getColor(android.R.color.holo_red_dark))
             etNickname.background = requireContext().resources.getDrawable(R.drawable.border_danger)
@@ -112,11 +111,11 @@ class MenuNickname : BottomSheetDialogFragment(), View.OnClickListener {
             sweetLoading.setCanceledOnTouchOutside(false)
             sweetLoading.show()
 
-            mService!!.updateUserNickname(uid, password, nickname).enqueue(object : Callback<ResponseModel>{
+            mService!!.updateUserNickname(uid, password, nickname).enqueue(object : Callback<ResponseModel> {
                 override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                    val code: Int = response.body()!!.code
-                    val message: String = response.body()!!.message
-                    if (code == 1){
+                    val code = response.body()!!.code
+                    val message = response.body()!!.message
+                    if (code == 1) {
                         sweetLoading.dismissWithAnimation()
                         tvPasswordError.text = "Current Password - $message"
                         tvPasswordError.setTextColor(requireContext().resources.getColor(android.R.color.holo_red_dark))
@@ -134,7 +133,7 @@ class MenuNickname : BottomSheetDialogFragment(), View.OnClickListener {
                                 .setContentText(message)
                                 .show()
                     }
-                    if (code == 3){
+                    if (code == 3) {
                         tvPasswordError.text = "Current Password"
                         tvPasswordError.setTextColor(requireContext().resources.getColor(R.color.colorAccent))
                         etPassword.background = requireContext().resources.getDrawable(R.drawable.border_accent)
@@ -164,11 +163,8 @@ class MenuNickname : BottomSheetDialogFragment(), View.OnClickListener {
                         compositeDisposable!!.add(userDataSource!!.insertOrUpdateUser(user)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe({
+                                .subscribe {
                                     EventBus.getDefault().postSticky(UpdateProfileEvent(true))
-                                })
-                                { throwable: Throwable ->
-                                    Log.d("user", throwable.message)
                                 })
                     }
                 }

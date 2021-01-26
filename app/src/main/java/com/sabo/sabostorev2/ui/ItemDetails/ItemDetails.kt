@@ -1,5 +1,8 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.ItemDetails
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -34,6 +37,7 @@ class ItemDetails : AppCompatActivity() {
         loadItemDetails()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun loadItemDetails() {
         val sweetLoading = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
         sweetLoading.progressHelper.barColor = resources.getColor(R.color.colorAccent)
@@ -43,32 +47,24 @@ class ItemDetails : AppCompatActivity() {
 
         Handler().postDelayed({
             val list = Common.itemDetails
-            if (list != null){
-                sweetLoading.dismissWithAnimation()
-                val itemUrl = Common.ITEMS_URL
-                var resultUrl = ""
-                when (list.itemId) {
-                    "item-01" -> resultUrl = itemUrl + "item-01/" + list.image
-                    "item-02" -> resultUrl = itemUrl + "item-02/" + list.image
-                    "item-03" -> resultUrl = itemUrl + "item-03/" + list.image
-                    "item-04" -> resultUrl = itemUrl + "item-04/" + list.image
-                    "item-05" -> resultUrl = itemUrl + "item-05/" + list.image
-                    "item-06" -> resultUrl = itemUrl + "item-06/" + list.image
-                    "item-07" -> resultUrl = itemUrl + "item-07/" + list.image
-                    "item-08" -> resultUrl = itemUrl + "item-08/" + list.image
-                }
-                Picasso.get().load(resultUrl).placeholder(R.drawable.ic_github).into(ivItemImg)
-                tvItemName.text = list.name
-                tvItemPrice.text = "$ ${Common.formatPriceUSDToDouble(list.price.div(Common.ratesIDR))}"
-                tvItemDescription.text = list.description
-                tvItemSpecification.text = list.specification!!.replace("/n", "\n")
+            sweetLoading.dismissWithAnimation()
+            val itemUrl = Common.ITEMS_URL
+            var resultUrl = ""
+            when (list.itemId) {
+                "item-01" -> resultUrl = itemUrl + "item-01/" + list.image
+                "item-02" -> resultUrl = itemUrl + "item-02/" + list.image
+                "item-03" -> resultUrl = itemUrl + "item-03/" + list.image
+                "item-04" -> resultUrl = itemUrl + "item-04/" + list.image
+                "item-05" -> resultUrl = itemUrl + "item-05/" + list.image
+                "item-06" -> resultUrl = itemUrl + "item-06/" + list.image
+                "item-07" -> resultUrl = itemUrl + "item-07/" + list.image
+                "item-08" -> resultUrl = itemUrl + "item-08/" + list.image
             }
-            else{
-                sweetLoading.titleText = "Oops!"
-                sweetLoading.contentText = "Something wrong. \nData is null!"
-                sweetLoading.setConfirmClickListener { sweetLoading.dismissWithAnimation() }
-                sweetLoading.changeAlertType(SweetAlertDialog.WARNING_TYPE)
-            }
+            Picasso.get().load(resultUrl).placeholder(R.drawable.ic_github).into(ivItemImg)
+            tvItemName.text = list.name
+            tvItemPrice.text = "$ ${Common.formatPriceUSDToDouble(list.price.div(Common.ratesIDR))}"
+            tvItemDescription.text = list.description
+            tvItemSpecification.text = list.specification!!.replace("/n", "\n")
 
         }, 100)
     }

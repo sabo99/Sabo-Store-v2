@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.Account.Menu.SubMenu
 
 import android.content.Intent
@@ -19,7 +21,7 @@ import com.sabo.sabostorev2.RoomDB.RoomDBHost
 import com.sabo.sabostorev2.RoomDB.User.LocalUserDataSource
 import com.sabo.sabostorev2.RoomDB.User.User
 import com.sabo.sabostorev2.RoomDB.User.UserDataSource
-import com.sabo.sabostorev2.ui.SignIn.SignInActivity
+import com.sabo.sabostorev2.ui.SignIn.SignIn
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -65,9 +67,7 @@ class DeleteAccount : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v!!.id) {
-            R.id.btnConfirm -> {
-                deleteAccount()
-            }
+            R.id.btnConfirm -> deleteAccount()
         }
     }
 
@@ -111,7 +111,7 @@ class DeleteAccount : AppCompatActivity(), View.OnClickListener {
                                         .setConfirmText("Exit")
                                         .setConfirmClickListener { sweetAlertDialog: SweetAlertDialog ->
                                             sweetAlertDialog.dismissWithAnimation()
-                                            startActivity(Intent(this@DeleteAccount, SignInActivity::class.java))
+                                            startActivity(Intent(this@DeleteAccount, SignIn::class.java))
                                             finish()
                                         }
                                         .show()
@@ -149,9 +149,8 @@ class DeleteAccount : AppCompatActivity(), View.OnClickListener {
                         override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
                             Log.d("removeAccount", response.body()!!.message)
                         }
-
                         override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
-                            Log.d("removeAccount", t.message)
+                            //Log.d("removeAccount", t.message)
                         }
                     })
                 })

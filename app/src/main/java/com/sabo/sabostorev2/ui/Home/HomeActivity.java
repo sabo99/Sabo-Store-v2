@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,7 +42,6 @@ import com.sabo.sabostorev2.RoomDB.User.UserDataSource;
 import com.sabo.sabostorev2.ui.Categories.Categories;
 import com.sabo.sabostorev2.ui.OrderHistory.OrdersHistory;
 import com.sabo.sabostorev2.ui.Search.SearchActivity;
-import com.sabo.sabostorev2.ui.SignIn.SignInActivity;
 import com.sabo.sabostorev2.ui.About.AboutActivity;
 import com.sabo.sabostorev2.ui.Cart.TestCart;
 import com.smarteist.autoimageslider.IndicatorAnimations;
@@ -345,70 +343,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onLogout(MenuItem item) {
         drawer.closeDrawers();
-        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Sign out!")
-                .setContentText("Are you sure?")
-                .showCancelButton(true)
-                .setCancelText("No")
-                .setCancelClickListener(sweetAlertDialog -> {
-                    sweetAlertDialog.dismissWithAnimation();
-                })
-                .setConfirmText("Yes")
-                .setConfirmClickListener(sweetAlertDialog -> {
-                    String uid = Preferences.getUID(this);
-                    mService.signOut(uid).enqueue(new Callback<ResponseModel>() {
-                        @Override
-                        public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                            int code = response.body().getCode();
-                            String message = response.body().getMessage();
-                            switch (code) {
-                                case 0:
-                                    sweetAlertDialog.setTitleText("Oops!")
-                                            .setContentText(message)
-                                            .showCancelButton(false)
-                                            .setConfirmText("Close")
-                                            .setConfirmClickListener(sweetAlertDialog1 -> {
-                                                sweetAlertDialog.dismissWithAnimation();
-                                            })
-                                            .changeAlertType(SweetAlertDialog.WARNING_TYPE);
-                                    break;
-                                case 1:
-                                    sweetAlertDialog.dismissWithAnimation();
-                                    userDataSource.removeAccount(uid);
-                                    Preferences.clearAllPreferences(HomeActivity.this);
-                                    startActivity(new Intent(HomeActivity.this, SignInActivity.class));
-                                    finish();
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseModel> call, Throwable t) {
-                            String message = t.getMessage();
-                            if (message.contains("10000ms"))
-                                sweetAlertDialog.setTitleText("Oops!")
-                                        .setContentText(t.getMessage())
-                                        .showCancelButton(false)
-                                        .setConfirmText("Close")
-                                        .setConfirmClickListener(sweetAlertDialog1 -> {
-                                            sweetAlertDialog.dismissWithAnimation();
-                                        })
-                                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            else
-                                sweetAlertDialog.setTitleText("Oops!")
-                                        .setContentText(t.getMessage())
-                                        .showCancelButton(false)
-                                        .setConfirmText("Close")
-                                        .setConfirmClickListener(sweetAlertDialog1 -> {
-                                            sweetAlertDialog.dismissWithAnimation();
-                                        })
-                                        .changeAlertType(SweetAlertDialog.WARNING_TYPE);
-                        }
-                    });
-                })
-                .show();
+        Common.onLogout(this, userDataSource);
     }
 
     @Override

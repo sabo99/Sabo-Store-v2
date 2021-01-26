@@ -1,9 +1,11 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.Account.Menu.BottomSheet
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -43,8 +45,8 @@ class MenuUsername : BottomSheetDialogFragment(), View.OnClickListener {
     }
 
     private var mService: APIRequestData? = null
-    private var compositeDisposable: CompositeDisposable?= null
-    private var userDataSource: UserDataSource?= null
+    private var compositeDisposable: CompositeDisposable? = null
+    private var userDataSource: UserDataSource? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -82,18 +84,17 @@ class MenuUsername : BottomSheetDialogFragment(), View.OnClickListener {
                 etPassword!!.setText("")
                 instance!!.dismiss()
             }
-            R.id.btnConfirm -> {
-                reauth()
-            }
+            R.id.btnConfirm -> reAuth()
         }
     }
 
-    private fun reauth() {
+    @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
+    private fun reAuth() {
         val uid = Preferences.getUID(context)
         val email = Common.currentUser.email
         val username = etUsername.text.toString()
         val password = etPassword.text.toString()
-        if (username.isNullOrEmpty()) {
+        if (username.isEmpty()) {
             tvUsernameError.text = "Username - Can't be null"
             tvUsernameError.setTextColor(requireContext().resources.getColor(android.R.color.holo_red_dark))
             etUsername.background = requireContext().resources.getDrawable(R.drawable.border_danger)
@@ -103,8 +104,7 @@ class MenuUsername : BottomSheetDialogFragment(), View.OnClickListener {
             tvUsernameError.setTextColor(requireContext().resources.getColor(android.R.color.holo_red_dark))
             etUsername.background = requireContext().resources.getDrawable(R.drawable.border_danger)
             etUsername.requestFocus()
-        }
-        else {
+        } else {
             tvUsernameError.text = "Username"
             tvUsernameError.setTextColor(requireContext().resources.getColor(R.color.colorAccent))
             etUsername.background = requireContext().resources.getDrawable(R.drawable.border_accent)
@@ -117,8 +117,8 @@ class MenuUsername : BottomSheetDialogFragment(), View.OnClickListener {
 
             mService!!.updateUserEmailUsername(uid, password, email, username).enqueue(object : Callback<ResponseModel> {
                 override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                    val code: Int = response.body()!!.code
-                    val message: String = response.body()!!.message
+                    val code = response.body()!!.code
+                    val message = response.body()!!.message
                     if (code == 1) {
                         sweetLoading.dismissWithAnimation()
                         tvPasswordError.text = "Current Password - $message"
@@ -167,14 +167,10 @@ class MenuUsername : BottomSheetDialogFragment(), View.OnClickListener {
                         compositeDisposable!!.add(userDataSource!!.insertOrUpdateUser(user)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe({
+                                .subscribe {
                                     EventBus.getDefault().postSticky(UpdateProfileEvent(true))
                                 })
-                                { throwable: Throwable ->
-                                    Log.d("user", throwable.message)
-                                })
                     }
-
                 }
 
                 override fun onFailure(call: Call<ResponseModel>, t: Throwable) {

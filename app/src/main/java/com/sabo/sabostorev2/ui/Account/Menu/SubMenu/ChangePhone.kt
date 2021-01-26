@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.Account.Menu.SubMenu
 
 import android.content.res.ColorStateList
@@ -40,7 +42,7 @@ class ChangePhone : AppCompatActivity(), View.OnClickListener {
     private var compositeDisposable: CompositeDisposable? = null
     private var userDataSource: UserDataSource? = null
 
-    private var uid: String? = null
+    private var uid = ""
     private var mCodeVerification: Int? = null
     private var timer: CountDownTimer? = null
     private var state = 0
@@ -59,11 +61,11 @@ class ChangePhone : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initViews() {
-        if (state == 0){
+        if (state == 0) {
             llGetOTP!!.visibility = View.VISIBLE
             llSendOTP!!.visibility = View.INVISIBLE
         }
-        if (state == 1){
+        if (state == 1) {
             llGetOTP!!.visibility = View.INVISIBLE
             llSendOTP!!.visibility = View.VISIBLE
         }
@@ -108,14 +110,14 @@ class ChangePhone : AppCompatActivity(), View.OnClickListener {
         val phone = etPhone.text.toString()
 
         val rand = Random()
-        val number: Int = rand.nextInt(999999)
-        val code: Int = String.format("%06d", number).toInt()
-        var checkZero: String? = null
-        if (phone.isNotEmpty()){
+        val number = rand.nextInt(999999)
+        val code = String.format("%06d", number).toInt()
+        var checkZero = ""
+        if (phone.isNotEmpty()) {
             checkZero = phone.substring(0, 1)
         }
 
-        if (phone.isNullOrEmpty() || !Patterns.PHONE.matcher(phone).matches() || phone.length < 11 || checkZero == "0") {
+        if (phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches() || phone.length < 11 || checkZero == "0") {
             Toast.makeText(this, "Invalid number", Toast.LENGTH_SHORT).show()
             etPhone!!.error = "ex: 721 xxxx xxxx"
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -141,9 +143,9 @@ class ChangePhone : AppCompatActivity(), View.OnClickListener {
 
             mService!!.getOTP(uid, phone, code).enqueue(object : Callback<ResponseModel> {
                 override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                    val code: Int = response.body()!!.code
+                    val coded = response.body()!!.code
                     btnSend.isEnabled = true
-                    if (code == 1) {
+                    if (coded == 1) {
                         val userCode = response.body()!!.user
                         mCodeVerification = userCode.code
                         // Delay 5 Second
@@ -153,7 +155,7 @@ class ChangePhone : AppCompatActivity(), View.OnClickListener {
                             etCode.setText(mCodeVerification.toString())
                         }, 5000);
                     }
-                    if (code == 2) {
+                    if (coded == 2) {
                         Toast.makeText(this@ChangePhone, "Request code failed", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -169,8 +171,8 @@ class ChangePhone : AppCompatActivity(), View.OnClickListener {
     private fun resendCode() {
         val phone = etPhone.text.toString()
         val rand = Random()
-        val number: Int = rand.nextInt(999999)
-        val code: Int = String.format("%06d", number).toInt()
+        val number = rand.nextInt(999999)
+        val code = String.format("%06d", number).toInt()
 
         btnVerify.isEnabled = false
         cvVerify.setCardBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
@@ -178,9 +180,9 @@ class ChangePhone : AppCompatActivity(), View.OnClickListener {
 
         mService!!.getOTP(uid, phone, code).enqueue(object : Callback<ResponseModel> {
             override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                val code: Int = response.body()!!.code
+                val coded = response.body()!!.code
                 btnSend.isEnabled = true
-                if (code == 1) {
+                if (coded == 1) {
                     val userCode = response.body()!!.user
                     mCodeVerification = userCode.code
                     // Delay 5 Second
@@ -190,7 +192,7 @@ class ChangePhone : AppCompatActivity(), View.OnClickListener {
                         etCode.setText(mCodeVerification.toString())
                     }, 5000);
                 }
-                if (code == 2) {
+                if (coded == 2) {
                     Toast.makeText(this@ChangePhone, "Request code failed", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -258,11 +260,8 @@ class ChangePhone : AppCompatActivity(), View.OnClickListener {
         compositeDisposable!!.add(userDataSource!!.insertOrUpdateUser(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribe {
                     Log.d("user", "Phone updated successfully")
-                })
-                { throwable: Throwable ->
-                    Log.d("user", throwable.message)
                 })
     }
 
@@ -270,5 +269,4 @@ class ChangePhone : AppCompatActivity(), View.OnClickListener {
         super.onStop()
         compositeDisposable!!.clear()
     }
-
 }

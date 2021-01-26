@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.sabo.sabostorev2">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -13,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:ignore="AllowBackup"
+        tools:targetApi="m">
         <activity android:name=".ui.Cart.TestOrder" />
         <activity android:name=".ui.Cart.TestCart" />
         <activity
@@ -45,7 +49,7 @@
         <activity
             android:name=".ui.Account.Menu.SubMenu.TwoStepVerification.TwoStepVerification"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.SignIn.SignInPINActivity" />
+        <activity android:name=".ui.SignIn.SignInPIN" />
         <activity
             android:name=".ui.Account.Menu.SubMenu.ChangePhone"
             android:launchMode="singleTask"
@@ -78,11 +82,11 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.SignUp.SignUpActivity"
+            android:name=".ui.SignUp.SignUp"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.SignIn.SignInActivity"
+            android:name=".ui.SignIn.SignIn"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

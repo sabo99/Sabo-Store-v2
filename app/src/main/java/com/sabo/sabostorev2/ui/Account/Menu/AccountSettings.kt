@@ -6,13 +6,13 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.sabo.sabostorev2.Common.Common
+import com.sabo.sabostorev2.Common.Preferences
+import com.sabo.sabostorev2.R
 import com.sabo.sabostorev2.ui.Account.Menu.SubMenu.ChangePhone
 import com.sabo.sabostorev2.ui.Account.Menu.SubMenu.DeleteAccount
 import com.sabo.sabostorev2.ui.Account.Menu.SubMenu.ResetPassword
 import com.sabo.sabostorev2.ui.Account.Menu.SubMenu.TwoStepVerification.TwoStepVerification
-import com.sabo.sabostorev2.Common.Common
-import com.sabo.sabostorev2.Common.Preferences
-import com.sabo.sabostorev2.R
 import maes.tech.intentanim.CustomIntent
 
 class AccountSettings : AppCompatActivity(), View.OnClickListener {
@@ -45,7 +45,7 @@ class AccountSettings : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v!!.id){
+        when (v!!.id) {
             R.id.twoStepVerify -> {
                 if (Preferences.getIsPIN(this)) {
                     Common.twoStepVerification(this, TwoStepVerification::class.java)
@@ -56,29 +56,29 @@ class AccountSettings : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.resetPassword -> {
-                if(Preferences.getIsPIN(this)){
+                if (Preferences.getIsPIN(this)) {
                     Common.twoStepVerification(this, ResetPassword::class.java)
                     CustomIntent.customType(this, Common.LTR)
-                }else{
+                } else {
                     startActivity(Intent(this, ResetPassword::class.java))
                     CustomIntent.customType(this, Common.LTR)
                 }
 
             }
             R.id.changeNumber -> {
-                if(Preferences.getIsPIN(this)){
+                if (Preferences.getIsPIN(this)) {
                     Common.twoStepVerification(this, ChangePhone::class.java)
                     CustomIntent.customType(this, Common.LTR)
-                }else{
+                } else {
                     startActivity(Intent(this, ChangePhone::class.java))
                     CustomIntent.customType(this, Common.LTR)
                 }
             }
             R.id.deleteAccount -> {
-                if(Preferences.getIsPIN(this)){
+                if (Preferences.getIsPIN(this)) {
                     Common.twoStepVerification(this, DeleteAccount::class.java)
                     CustomIntent.customType(this, Common.LTR)
-                }else{
+                } else {
                     startActivity(Intent(this, DeleteAccount::class.java))
                     CustomIntent.customType(this, Common.LTR)
                 }

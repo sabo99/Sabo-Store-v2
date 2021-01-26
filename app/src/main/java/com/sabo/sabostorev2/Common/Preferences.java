@@ -48,7 +48,6 @@ public class Preferences {
         return getSharedPreference(context).getBoolean(Common.SF_KEY_LOG_IN_PIN, false);
     }
 
-
     /** Clear All SharedPreferences
      * @param context
      */

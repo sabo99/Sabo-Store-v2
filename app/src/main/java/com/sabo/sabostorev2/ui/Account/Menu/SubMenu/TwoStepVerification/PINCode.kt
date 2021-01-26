@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.Account.Menu.SubMenu.TwoStepVerification
 
 import android.content.res.ColorStateList
@@ -179,7 +181,7 @@ class PINCode : AppCompatActivity(), View.OnClickListener {
                             val s = SweetAlertDialog(this@PINCode, SweetAlertDialog.SUCCESS_TYPE)
                             s.titleText = "Success!"
                             s.contentText = message
-                            s.setConfirmClickListener { s: SweetAlertDialog ->
+                            s.setConfirmClickListener {
                                 s.dismissWithAnimation()
                                 Preferences.setIsPIN(this@PINCode, true)
                                 CustomIntent.customType(this@PINCode, Common.RTL)
@@ -206,5 +208,4 @@ class PINCode : AppCompatActivity(), View.OnClickListener {
             })
         }
     }
-
 }

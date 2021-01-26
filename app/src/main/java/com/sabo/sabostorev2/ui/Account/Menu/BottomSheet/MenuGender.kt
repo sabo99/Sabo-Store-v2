@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.Account.Menu.BottomSheet
 
 import android.graphics.Color
@@ -101,12 +103,8 @@ class MenuGender : BottomSheetDialogFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v!!.id) {
-            R.id.btnCancel -> {
-                instance!!.dismiss()
-            }
-            R.id.btnConfirm -> {
-                changeGender()
-            }
+            R.id.btnCancel -> instance!!.dismiss()
+            R.id.btnConfirm -> changeGender()
         }
     }
 
@@ -156,11 +154,8 @@ class MenuGender : BottomSheetDialogFragment(), View.OnClickListener {
                     compositeDisposable!!.add(userDataSource!!.insertOrUpdateUser(user)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
+                            .subscribe{
                                 EventBus.getDefault().postSticky(UpdateProfileEvent(true))
-                            })
-                            { throwable: Throwable ->
-                                Log.d("user", throwable.message)
                             })
                 }
             }
@@ -180,5 +175,4 @@ class MenuGender : BottomSheetDialogFragment(), View.OnClickListener {
         super.onStop()
         compositeDisposable!!.clear()
     }
-
 }

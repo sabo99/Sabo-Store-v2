@@ -18,17 +18,17 @@ interface CartDAO {
     fun insertOrReplaceAll(vararg cart: Cart): Completable
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateQtyItemInCart(cart: Cart): Single<Integer>
+    fun updateQtyItemInCart(cart: Cart): Single<Int>
 
     @Delete
-    fun deleteItemInCart(cart: Cart): Single<Integer>
+    fun deleteItemInCart(cart: Cart): Single<Int>
 
     @Query("SELECT SUM(itemQuantity) FROM Cart WHERE uid=:uid")
-    fun countItemInCart(uid: String): Single<Integer>
+    fun countItemInCart(uid: String): Single<Int>
 
     @Query("SELECT SUM(itemPrice * itemQuantity) FROM Cart WHERE uid=:uid")
     fun getTotalPrice(uid: String): Single<Double>
 
     @Query("DELETE FROM Cart WHERE uid=:uid")
-    fun clearAllCart(uid: String): Single<Integer>
+    fun clearAllCart(uid: String): Single<Int>
 }

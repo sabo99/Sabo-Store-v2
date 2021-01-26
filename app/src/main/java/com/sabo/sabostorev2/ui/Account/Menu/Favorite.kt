@@ -1,8 +1,8 @@
 package com.sabo.sabostorev2.ui.Account.Menu
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.R
 import maes.tech.intentanim.CustomIntent

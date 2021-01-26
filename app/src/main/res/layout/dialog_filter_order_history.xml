@@ -18,11 +18,10 @@
             android:layout_height="match_parent">
 
             <Spinner
+                android:id="@+id/spFilter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@android:color/white"
-                android:entries="@array/filter_order_history"
-                android:padding="4dp" />
+                android:backgroundTint="@android:color/white" />
 
         </LinearLayout>
 

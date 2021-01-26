@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.sabo.sabostorev2.ui.Account.Menu.SubMenu.TwoStepVerification
 
 import android.content.Intent
