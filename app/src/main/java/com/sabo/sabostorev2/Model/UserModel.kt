@@ -8,6 +8,6 @@ class UserModel {
     var image: String? = null
     var phone: String? = null
     var countryCode: String? = null
-    var gender: Int? = null
-    var code: Int? = null
+    var gender: Int = 0
+    var code: Int = 0
 }

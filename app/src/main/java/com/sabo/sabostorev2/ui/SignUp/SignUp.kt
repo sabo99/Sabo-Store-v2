@@ -4,14 +4,15 @@ package com.sabo.sabostorev2.ui.SignUp
 
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.Html
+import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
 import com.sabo.sabostorev2.API.APIRequestData
@@ -42,6 +43,71 @@ class SignUp : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.btnSignUp).setOnClickListener(this)
         findViewById<TextView>(R.id.tvSignIn).setOnClickListener(this)
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener(this)
+
+        val text1 = Common.getColoredSpanned("Already have an account?", "")
+        val text2 = Common.getColoredSpanned("Sign Up", "#33B5E5")
+        tvSignIn.text = Html.fromHtml("$text1 $text2")
+
+        etUsername.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                clearColorFieldUsername()
+                if (s.toString().isNotEmpty())
+                    tvUsername.visibility = View.VISIBLE
+                else
+                    tvUsername.visibility = View.GONE
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                clearColorFieldUsername()
+                if (s.toString().isNotEmpty())
+                    tvUsername.visibility = View.VISIBLE
+                else
+                    tvUsername.visibility = View.GONE
+            }
+            override fun afterTextChanged(s: Editable?) {
+                clearColorFieldUsername()
+                if (s.toString().isNotEmpty()) tvUsername.visibility = View.VISIBLE
+                else tvUsername.visibility = View.GONE
+            }
+        })
+        etEmail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                clearColorFieldEmail()
+                if (s.toString().isNotEmpty())
+                    tvEmail.visibility = View.VISIBLE
+                else
+                    tvEmail.visibility = View.GONE
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                clearColorFieldEmail()
+                if (s.toString().isNotEmpty())
+                    tvEmail.visibility = View.VISIBLE
+                else
+                    tvEmail.visibility = View.GONE
+            }
+            override fun afterTextChanged(s: Editable?) {
+                clearColorFieldEmail()
+                if (s.toString().isNotEmpty()) tvEmail.visibility = View.VISIBLE
+                else tvEmail.visibility = View.GONE
+            }
+        })
+        etPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                clearColorFieldPassword()
+                if (s.toString().isNotEmpty()) tvPassword.visibility = View.VISIBLE
+                else tvPassword.visibility = View.GONE
+
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                clearColorFieldPassword()
+                if (s.toString().isNotEmpty()) tvPassword.visibility = View.VISIBLE
+                else tvPassword.visibility = View.GONE
+            }
+            override fun afterTextChanged(s: Editable?) {
+                clearColorFieldPassword()
+                if (s.toString().isNotEmpty()) tvPassword.visibility = View.VISIBLE
+                else tvPassword.visibility = View.GONE
+            }
+        })
     }
 
     override fun onClick(v: View?) {
@@ -52,62 +118,107 @@ class SignUp : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun clearAllOptionFields() {
+        etUsername.clearFocus()
+        etEmail.clearFocus()
+        etPassword.clearFocus()
+
+        etUsername.setText("")
+        etEmail.setText("")
+        etPassword.setText("")
+
+        clearAllColorField()
+    }
+
+    private fun clearAllColorField() {
+        clearColorFieldUsername()
+        clearColorFieldEmail()
+        clearColorFieldPassword()
+    }
+
+    private fun clearColorFieldUsername() {
+        tilUsername.isHelperTextEnabled = false
+        etUsername.background = resources.getDrawable(R.drawable.border_accent)
+    }
+
+    private fun clearColorFieldEmail() {
+        tilEmail.isHelperTextEnabled = false
+        etEmail.background = resources.getDrawable(R.drawable.border_accent)
+    }
+
+    private fun clearColorFieldPassword() {
+        tilPassword.isHelperTextEnabled = false
+        etPassword.background = resources.getDrawable(R.drawable.border_accent)
+    }
+
     private fun signUp() {
-        val email = etEmail.text.toString()
+        clearAllColorField()
+
         val username = etUsername.text.toString()
+        val email = etEmail.text.toString()
         val password = etPassword.text.toString()
 
-        if (username.isNullOrEmpty()) {
-            etUsername.error = "Username is required"
-        } else if (email.isNullOrEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (username.isEmpty()) {
+            etUsername.requestFocus()
+            etUsername.background = resources.getDrawable(R.drawable.border_danger)
+            tilUsername.isHelperTextEnabled = true
+            tilUsername.helperText = "Username is required"
+            tilUsername.setHelperTextColor(ColorStateList.valueOf(resources.getColor(android.R.color.holo_red_dark)))
+        } else if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            clearColorFieldUsername()
+
+            etEmail.requestFocus()
+            etEmail.background = resources.getDrawable(R.drawable.border_danger)
             tilEmail.isHelperTextEnabled = true
-            tilEmail.helperText = "Invalid email format"
+            tilEmail.helperText = "Invalid E-mail format"
             tilEmail.setHelperTextColor(ColorStateList.valueOf(resources.getColor(android.R.color.holo_red_dark)))
         } else if (password.length < 6) {
-            tilEmail.isHelperTextEnabled = false
+            clearColorFieldUsername()
+            clearColorFieldEmail()
+
+            etPassword.requestFocus()
+            etPassword.background = resources.getDrawable(R.drawable.border_danger)
             tilPassword.isHelperTextEnabled = true
             tilPassword.helperText = "Password too short (Minimal 6 digit)"
             tilPassword.setHelperTextColor(ColorStateList.valueOf(resources.getColor(android.R.color.holo_red_dark)))
         } else {
-            tilEmail.isHelperTextEnabled = false
-            tilPassword.isHelperTextEnabled = false
+            clearAllColorField()
 
             progressBar.visibility = View.VISIBLE
             btnSignUp.isEnabled = false
+            cvSignUp.setCardBackgroundColor(ColorStateList.valueOf(resources.getColor(R.color.colorPrimaryDark)))
 
             mService!!.signUp(email, username, password).enqueue(object : Callback<ResponseModel> {
-                @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
                 override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
                     val code = response.body()!!.code
                     val message = response.body()!!.message
                     progressBar.visibility = View.INVISIBLE
                     btnSignUp.isEnabled = true
+                    cvSignUp.setCardBackgroundColor(ColorStateList.valueOf(resources.getColor(R.color.colorAccent)))
+
                     if (code == 1) {
                         etUsername.requestFocus()
-                        etUsername.backgroundTintList = ColorStateList.valueOf(resources.getColor(android.R.color.holo_red_dark))
+                        etUsername.background = resources.getDrawable(R.drawable.border_danger)
                         tilUsername.isHelperTextEnabled = true
                         tilUsername.helperText = message
                         tilUsername.setHelperTextColor(ColorStateList.valueOf(resources.getColor(android.R.color.holo_red_dark)))
-                        tilUsername.hintTextColor = ColorStateList.valueOf(resources.getColor(android.R.color.holo_red_dark))
                     } else if (code == 2) {
-                        tilUsername.isHelperTextEnabled = false
-                        tilUsername.setHelperTextColor(ColorStateList.valueOf(resources.getColor(R.color.colorAccent)))
-                        tilUsername.hintTextColor = ColorStateList.valueOf(resources.getColor(R.color.colorAccent))
+                        clearColorFieldUsername()
 
                         etEmail.requestFocus()
-                        etEmail.backgroundTintList = ColorStateList.valueOf(resources.getColor(android.R.color.holo_red_dark))
+                        etEmail.background = resources.getDrawable(R.drawable.border_danger)
                         tilEmail.isHelperTextEnabled = true
                         tilEmail.helperText = message
                         tilEmail.setHelperTextColor(ColorStateList.valueOf(resources.getColor(android.R.color.holo_red_dark)))
-                        tilEmail.hintTextColor = ColorStateList.valueOf(resources.getColor(android.R.color.holo_red_dark))
                     } else if (code == 3 || code == 4) {
-                        clearColorFields()
+                        clearAllColorField()
+
                         val sweet = SweetAlertDialog(this@SignUp, SweetAlertDialog.WARNING_TYPE)
                         sweet.titleText = "Oops!"
                         sweet.contentText = message
                         sweet.show()
                     } else {
-                        clearColorFields()
+                        clearAllOptionFields()
                         val userModel = response.body()!!.user
                         Preferences.setUID(this@SignUp, userModel.uid)
                         Preferences.setIsLogIn(this@SignUp, true)
@@ -126,8 +237,10 @@ class SignUp : AppCompatActivity(), View.OnClickListener {
                 }
 
                 override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
+                    clearAllColorField()
                     progressBar.visibility = View.INVISIBLE
                     btnSignUp.isEnabled = true
+                    cvSignUp.setCardBackgroundColor(ColorStateList.valueOf(resources.getColor(R.color.colorAccent)))
                     val sweet = SweetAlertDialog(this@SignUp, SweetAlertDialog.WARNING_TYPE)
                     sweet.titleText = "Oops!"
                     sweet.contentText = t.message
@@ -135,17 +248,6 @@ class SignUp : AppCompatActivity(), View.OnClickListener {
                 }
             })
         }
-    }
-
-    private fun clearColorFields() {
-        etUsername.setHintTextColor(ColorStateList.valueOf(resources.getColor(R.color.colorAccent)))
-        etEmail.setHintTextColor(ColorStateList.valueOf(resources.getColor(R.color.colorAccent)))
-        tilUsername.setHelperTextColor(ColorStateList.valueOf(resources.getColor(R.color.colorAccent)))
-        tilEmail.setHelperTextColor(ColorStateList.valueOf(resources.getColor(R.color.colorAccent)))
-        tilUsername.hintTextColor = ColorStateList.valueOf(resources.getColor(R.color.colorAccent))
-        tilEmail.hintTextColor = ColorStateList.valueOf(resources.getColor(R.color.colorAccent))
-        tilUsername.isHelperTextEnabled = false
-        tilEmail.isHelperTextEnabled = false
     }
 
     override fun finish() {

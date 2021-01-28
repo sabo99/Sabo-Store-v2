@@ -94,9 +94,12 @@ public class Common {
 
     private static APIRequestData mService = getAPI();
     public static double ratesIDR;
-    @Nullable public static List<ItemStoreModel> itemStoreModels;
-    @NotNull public static ItemStoreModel categoriesSelected;
-    @NotNull public static ItemsModel itemDetails;
+    @Nullable
+    public static List<ItemStoreModel> itemStoreModels;
+    @NotNull
+    public static ItemStoreModel categoriesSelected;
+    @NotNull
+    public static ItemsModel itemDetails;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
@@ -394,5 +397,15 @@ public class Common {
                     });
                 })
                 .show();
+    }
+
+    public static String getColoredSpanned(@NotNull String text, @NotNull String color) {
+       return !color.equals("") ?
+               new StringBuilder().append("<font color=").append(color).append(">").append(text).append("</font>").toString()
+               : new StringBuilder().append("<font>").append(text).append("</font>").toString();
+    }
+
+    public static int getImagePlaceHolder() {
+        return R.drawable.ic_github;
     }
 }

@@ -49,7 +49,7 @@ class OrdersHistoryAdapter(private val context: Context, private val ordersModel
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val list = ordersModelList[position]
 
-        val orderIDLong = list.orderID!!.toLong()
+        val orderIDLong = list.orderID.toLong()
         calendar.timeInMillis = orderIDLong
         date = Date(orderIDLong)
         holder.tvOrderDate.text = "${Common.orderDateFormat(calendar.get(Calendar.DAY_OF_WEEK))}  ${simpleDateFormat.format(date)}"

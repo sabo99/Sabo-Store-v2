@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.Model.Order.OrderDetailsModel
 import com.sabo.sabostorev2.R
+import com.squareup.picasso.Picasso
 
 class OrderDetailsAdapter(private val context: Context, private val orderDetailsModelList: List<OrderDetailsModel>): RecyclerView.Adapter<OrderDetailsAdapter.ViewHolder>() {
 
@@ -26,7 +27,19 @@ class OrderDetailsAdapter(private val context: Context, private val orderDetails
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val list = orderDetailsModelList[position]
-
+        val itemUrl = Common.ITEMS_URL
+        var resultUrl = ""
+        when (list.itemId) {
+            "item-01" -> resultUrl = itemUrl + "item-01/" + list.itemImage
+            "item-02" -> resultUrl = itemUrl + "item-02/" + list.itemImage
+            "item-03" -> resultUrl = itemUrl + "item-03/" + list.itemImage
+            "item-04" -> resultUrl = itemUrl + "item-04/" + list.itemImage
+            "item-05" -> resultUrl = itemUrl + "item-05/" + list.itemImage
+            "item-06" -> resultUrl = itemUrl + "item-06/" + list.itemImage
+            "item-07" -> resultUrl = itemUrl + "item-07/" + list.itemImage
+            "item-08" -> resultUrl = itemUrl + "item-08/" + list.itemImage
+        }
+        Picasso.get().load(resultUrl).placeholder(R.drawable.ic_github).into(holder.ivItemImg)
         holder.tvItemName.text = list.itemName
         holder.tvItemQuantity.text = "${list.itemQuantity} pcs"
         holder.tvItemPrice.text = "$ ${Common.formatPriceUSDToDouble(list.itemPrice)} /pcs"

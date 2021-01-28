@@ -26,8 +26,26 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginHorizontal="12dp"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="@dimen/card_corner_radius"
         app:cardElevation="8dp">
+
+        <com.lid.lib.LabelTextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            app:label_backgroundColor="@color/colorPrimaryDark"
+            app:label_distance="40dp"
+            app:label_text="SIGN IN"
+            app:label_textSize="12sp" />
+
+        <com.lid.lib.LabelTextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            app:label_backgroundColor="@color/colorPrimaryDark"
+            app:label_distance="40dp"
+            app:label_orientation="RIGHT_TOP"
+            app:label_text=""
+            app:label_textSize="12sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,12 +61,26 @@
                 android:text="Sign In"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:id="@+id/tvEmailUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginBottom="6dp"
+                android:text="E-mail or Username"
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilEmailUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 app:errorEnabled="true"
+                app:hintEnabled="false"
                 app:startIconDrawable="@drawable/ic_user"
                 app:startIconTint="@color/colorAccent">
 
@@ -56,18 +88,33 @@
                     android:id="@+id/etEmailUsername"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/border_accent"
                     android:hint="E-mail or Username"
                     android:inputType="textEmailAddress|textPersonName"
                     android:textSize="16sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+
+            <TextView
+                android:id="@+id/tvPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginBottom="6dp"
+                android:text="Password"
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 app:errorEnabled="true"
+                app:hintEnabled="false"
                 app:passwordToggleEnabled="true"
                 app:passwordToggleTint="@color/colorAccent"
                 app:startIconDrawable="@drawable/ic_password"
@@ -77,6 +124,7 @@
                     android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/border_accent"
                     android:hint="Password"
                     android:inputType="textPassword"
                     android:textSize="16sp" />
@@ -85,11 +133,12 @@
 
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cvSignIn"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 app:cardBackgroundColor="@color/colorAccent"
-                app:cardCornerRadius="6dp"
+                app:cardCornerRadius="@dimen/button_corner_radius"
                 app:cardElevation="2dp">
 
                 <Button
@@ -146,5 +195,6 @@
         android:indeterminate="true"
         android:indeterminateTint="@color/colorAccent"
         android:visibility="invisible" />
+
 
 </RelativeLayout>

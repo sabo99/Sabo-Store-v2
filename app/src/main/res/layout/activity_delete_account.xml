@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.Account.Menu.SubMenu.DeleteAccount">
 
@@ -81,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            app:cardCornerRadius="6dp"
+            app:cardCornerRadius="@dimen/card_corner_radius"
             app:cardElevation="4dp">
 
             <LinearLayout
@@ -122,7 +122,7 @@
                     android:id="@+id/tilPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     app:errorEnabled="true"
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="@color/colorAccent"
@@ -144,8 +144,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginVertical="20dp"
-                    app:cardCornerRadius="6dp"
                     app:cardBackgroundColor="@color/red_btn_bg_color"
+                    app:cardCornerRadius="@dimen/button_corner_radius"
                     app:cardElevation="2dp">
 
                     <Button
@@ -162,6 +162,19 @@
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/logo_with_text" />
 
     </RelativeLayout>
 

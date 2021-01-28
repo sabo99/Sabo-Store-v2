@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:theme="@style/BaseBottomSheetDialog"
     android:layout_height="wrap_content"
+    android:theme="@style/AppTheme.NoActionBar.Default"
     tools:context=".ui.Account.Menu.BottomSheet.MenuUsername">
 
     <!-- TODO: Update blank fragment layout -->
@@ -35,19 +36,30 @@
                 android:layout_height="wrap_content"
                 android:text="Username"
                 android:textColor="@color/colorAccent" />
+
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="10dp" />
 
-            <EditText
-                android:id="@+id/etUsername"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_accent"
-                android:inputType="textPersonName"
-                android:maxLines="1"
-                android:padding="6dp"
-                android:textSize="16sp" />
+                app:hintEnabled="false"
+                app:startIconDrawable="@drawable/ic_user"
+                app:startIconTint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/etUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/border_accent"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:padding="6dp"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <Space
                 android:layout_width="match_parent"
@@ -64,15 +76,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp" />
 
-            <EditText
-                android:id="@+id/etPassword"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_accent"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:padding="6dp"
-                android:textSize="16sp" />
+                app:hintEnabled="false"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorAccent"
+                app:startIconDrawable="@drawable/ic_password"
+                app:startIconTint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/border_accent"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:padding="6dp"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
         </LinearLayout>
 

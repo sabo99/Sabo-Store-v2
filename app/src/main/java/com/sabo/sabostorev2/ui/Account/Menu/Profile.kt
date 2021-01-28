@@ -367,7 +367,7 @@ class Profile : AppCompatActivity(), View.OnClickListener {
             val extension = parts[1]
             val fileName = "$name.$extension"
 
-            if (!filePath.isNullOrEmpty()) {
+            if (filePath.isNotEmpty()) {
                 val file = File(filePath)
 
                 val requestBody = RequestBody.create(MediaType.parse("*/*"), file) as RequestBody

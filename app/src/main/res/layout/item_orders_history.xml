@@ -7,7 +7,7 @@
     android:layout_marginHorizontal="20dp"
     android:layout_marginTop="12dp"
     android:layout_marginBottom="8dp"
-    app:cardCornerRadius="6dp"
+    app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="6dp">
 
     <RelativeLayout
@@ -16,63 +16,70 @@
         android:background="@drawable/bg_card_categories">
 
         <RelativeLayout
-            android:id="@+id/rlTop"
+            android:id="@+id/rlMain"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/tvOrderID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Order #xxxxxx"
-                android:textColor="@color/colorTextBlueDark"
-                android:textSize="14sp" />
+            android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/rlStatus"
-                android:layout_width="wrap_content"
+                android:id="@+id/rlTop"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvOrderID"
-                android:paddingTop="5dp">
-
-                <ImageView
-                    android:id="@+id/ivLogoStatus"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_history"
-                    app:tint="@color/colorAccent" />
+                android:background="@color/colorGlassBlur"
+                android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/tvOrderStatus"
+                    android:id="@+id/tvOrderID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/ivLogoStatus"
-                    android:paddingLeft="5dp"
-                    android:text="Ordered"
+                    android:text="Order #xxxxxx"
                     android:textColor="@color/colorTextBlueDark"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvOrderID"
+                    android:paddingTop="5dp">
+
+                    <ImageView
+                        android:id="@+id/ivLogoStatus"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_history"
+                        app:tint="@color/colorAccent" />
+
+                    <TextView
+                        android:id="@+id/tvOrderStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/ivLogoStatus"
+                        android:paddingLeft="5dp"
+                        android:text="Ordered"
+                        android:textColor="@color/colorTextBlueDark"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tvOrderDate"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:text="Friday \n06-11-2020 \n12:20:04"
+                    android:textColor="@color/colorTextBlueDark"
+                    android:textSize="14sp" />
 
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tvOrderDate"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:gravity="right"
-                android:text="Friday \n06-11-2020 \n12:20:04"
-                android:textColor="@color/colorTextBlueDark"
-                android:textSize="14sp" />
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvOrdersHistoryDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rlStatus"
-                android:layout_marginTop="25dp"
+                android:layout_below="@id/rlTop"
                 android:layout_marginBottom="50dp"
+                android:padding="16dp"
                 tools:listitem="@layout/item_orders_history_detail" />
 
         </RelativeLayout>
@@ -81,7 +88,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_alignBottom="@id/rlTop"
+            android:layout_alignBottom="@id/rlMain"
             android:background="@color/colorGlassBlur"
             android:paddingHorizontal="20dp"
             android:paddingVertical="10dp">
@@ -93,8 +100,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@id/tvMore"
                 android:shadowColor="@android:color/black"
-                android:shadowDx="0"
-                android:shadowDy="0"
                 android:shadowRadius="4"
                 android:text="Total Price :"
                 android:textColor="@android:color/white"
@@ -110,8 +115,6 @@
                 android:layout_marginRight="20dp"
                 android:layout_toLeftOf="@id/tvMore"
                 android:shadowColor="@android:color/black"
-                android:shadowDx="0"
-                android:shadowDy="0"
                 android:shadowRadius="4"
                 android:text="$ 0.0"
                 android:textColor="@android:color/white"
@@ -127,8 +130,6 @@
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:shadowColor="@android:color/black"
-                android:shadowDx="0"
-                android:shadowDy="0"
                 android:shadowRadius="4"
                 android:text="More"
                 android:textColor="@android:color/white"

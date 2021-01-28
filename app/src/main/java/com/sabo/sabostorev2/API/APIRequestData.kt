@@ -193,6 +193,13 @@ interface APIRequestData {
 
 
     /**
+     * Item Most Popular
+     */
+    @GET("getMostPopular.php")
+    fun getMostPopular(): Call<ResponseModel>
+
+
+    /**
      * ItemStore
      */
     @GET("getItemStore.php")

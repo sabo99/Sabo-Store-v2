@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.sabo.sabostorev2.Common.Common
 import com.sabo.sabostorev2.Model.Item.ItemsModel
@@ -45,7 +44,7 @@ class CategoriesAdapter(private val context: Context, private val itemsModelList
             "item-07" -> resultUrl = itemUrl + "item-07/" + list.image
             "item-08" -> resultUrl = itemUrl + "item-08/" + list.image
         }
-        Picasso.get().load(resultUrl).into(holder.ivItemImg)
+        Picasso.get().load(resultUrl).placeholder(R.drawable.ic_github).into(holder.ivItemImg)
         holder.tvItemName.text = list.name
         holder.tvItemPrice.text = "$ ${Common.formatPriceUSDToDouble(list.price.div(Common.ratesIDR))}"
 

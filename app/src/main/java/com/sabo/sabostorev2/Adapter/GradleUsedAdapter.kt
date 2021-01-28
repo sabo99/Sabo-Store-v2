@@ -25,7 +25,7 @@ class GradleUsedAdapter(private val context: Context, private val gradleUsedMode
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val list = gradleUsedModelList[position]
-        if (list.gradleName!!.isNotEmpty()) {
+        if (list.gradleName.isNotEmpty()) {
             val text = SpannableString(list.gradleName)
             text.setSpan(UnderlineSpan(), 0, text.length, 0)
             holder.tvGradle.text = text

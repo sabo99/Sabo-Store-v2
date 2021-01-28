@@ -17,6 +17,10 @@
     <string name="menu_exit">Sign out</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="item_name_placeholder">Item Name</string>
+    <string name="item_qty_placeholder">99 pcs</string>
+    <string name="item_desc_placeholder">Item Description</string>
+    <string name="item_price_placeholder">$ 99.99</string>
 
 
     <string-array name="filter_order_history">

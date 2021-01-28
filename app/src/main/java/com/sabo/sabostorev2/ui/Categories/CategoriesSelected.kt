@@ -76,7 +76,7 @@ class CategoriesSelected : AppCompatActivity() {
 
     private fun loadCategoriesSelected() {
         progressBar.visibility = View.VISIBLE
-        mService!!.getItems(Common.categoriesSelected.id!!).enqueue(object : Callback<ResponseModel>{
+        mService!!.getItems(Common.categoriesSelected.id).enqueue(object : Callback<ResponseModel>{
             override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
                 val code = response.body()!!.code
                 progressBar.visibility = View.INVISIBLE
@@ -97,7 +97,7 @@ class CategoriesSelected : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
         val resultSearch: ArrayList<ItemsModel> = ArrayList()
         for (items in searchList) {
-            if (items.name!!.contains(query) || items.name!!.toLowerCase().contains(query) || (items.price.toString()).contains(query))
+            if (items.name.contains(query) || items.name.toLowerCase().contains(query) || (items.price.toString()).contains(query))
                 resultSearch.add(items)
         }
 

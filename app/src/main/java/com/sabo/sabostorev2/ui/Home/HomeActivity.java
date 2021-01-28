@@ -133,10 +133,6 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Currency> call, Throwable t) {
-                new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("IDR")
-                        .setContentText(t.getMessage())
-                        .show();
             }
         });
 
@@ -289,15 +285,12 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseModel> call, Throwable t) {
-                String message = t.getMessage();
                 progressBar.setVisibility(View.GONE);
                 loadData();
-                if (message.contains("10000ms"))
-                    mSweetLoading.dismissWithAnimation();
-                else
-                    mSweetLoading.setTitleText("Oops!")
-                            .setContentText(t.getMessage())
-                            .changeAlertType(SweetAlertDialog.WARNING_TYPE);
+                mSweetLoading.setTitleText("Oops!")
+                        .setContentText(t.getMessage())
+                        .changeAlertType(SweetAlertDialog.WARNING_TYPE);
+
             }
         });
     }

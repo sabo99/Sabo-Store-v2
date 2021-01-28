@@ -11,7 +11,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="4dp"
         android:layout_marginBottom="8dp"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="@dimen/card_corner_radius"
         app:cardElevation="4dp">
 
         <View
@@ -45,7 +45,7 @@
                 android:gravity="center"
                 android:shadowColor="@android:color/black"
                 android:shadowRadius="2"
-                android:text="Name"
+                android:text="@string/item_name_placeholder"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -58,7 +58,8 @@
                 android:gravity="center"
                 android:shadowColor="@android:color/black"
                 android:shadowRadius="2"
-                android:text="Description"
+                android:textStyle="bold"
+                android:text="@string/item_desc_placeholder"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 

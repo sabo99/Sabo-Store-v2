@@ -97,8 +97,8 @@ class SearchActivity : AppCompatActivity() {
     private fun onSearch(query: String) {
         progressBar.visibility = View.VISIBLE
         val resultSearch: ArrayList<ItemsModel> = ArrayList()
-        for (items: ItemsModel in searchList) {
-            if (items.name!!.contains(query) || items.name!!.toLowerCase().contains(query) || (items.price.toString()).contains(query))
+        for (items in searchList) {
+            if (items.name.contains(query) || items.name.toLowerCase().contains(query) || (items.price.toString()).contains(query))
                 resultSearch.add(items)
         }
 

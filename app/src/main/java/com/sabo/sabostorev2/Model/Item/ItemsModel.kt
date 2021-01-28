@@ -1,11 +1,11 @@
 package com.sabo.sabostorev2.Model.Item
 
 class ItemsModel {
-    var id: String? = null
-    var itemId: String? = null
-    var name: String? = null
-    var image: String? = null
-    var description: String? = null
-    var specification: String? = null
+    var id: String = ""
+    var itemId: String = ""
+    var name: String = ""
+    var image: String = ""
+    var description: String = ""
+    var specification: String = ""
     var price: Int = 0
 }

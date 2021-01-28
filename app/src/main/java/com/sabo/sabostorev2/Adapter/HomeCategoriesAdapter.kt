@@ -44,7 +44,7 @@ class HomeCategoriesAdapter(private val context: Context, private val itemStoreM
             "item-07" -> resultUrl = itemUrl + "item-07/" + list.image
             "item-08" -> resultUrl = itemUrl + "item-08/" + list.image
         }
-        Picasso.get().load(resultUrl).into(holder.ivItemImg)
+        Picasso.get().load(resultUrl).placeholder(Common.getImagePlaceHolder()).into(holder.ivItemImg)
         holder.tvItemName.text = list.name
         holder.tvItemDescription.text = list.description
         setAnimation(holder.itemView, position)

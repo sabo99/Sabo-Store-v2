@@ -10,7 +10,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="10dp"
         app:cardBackgroundColor="@color/colorAccent"
-        app:cardCornerRadius="6dp"
+        app:cardCornerRadius="@dimen/button_corner_radius"
         app:cardElevation="2dp">
 
         <LinearLayout
