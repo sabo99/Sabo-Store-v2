@@ -64,7 +64,7 @@ class ItemDetails : AppCompatActivity() {
             tvItemName.text = list.name
             tvItemPrice.text = "$ ${Common.formatPriceUSDToDouble(list.price.div(Common.ratesIDR))}"
             tvItemDescription.text = list.description
-            tvItemSpecification.text = list.specification!!.replace("/n", "\n")
+            tvItemSpecification.text = list.specification.replace("/n", "\n")
 
         }, 100)
     }
